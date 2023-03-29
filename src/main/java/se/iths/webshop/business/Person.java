@@ -21,17 +21,29 @@ public abstract class Person {
     private String name;
     @NotBlank
     private String password;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Order> orders;
 
     public Person() {}
 
     public Person(String name, String password) {
         this.name = name;
         this.password = password;
+        this.orders = new ArrayList<Order>();
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
     }
 
     public void setId(Long id) {
         this.id = id;
     }
+
     public Long getId() {
         return id;
     }
