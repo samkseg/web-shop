@@ -38,4 +38,8 @@ public class OrderLine {
     public void setCount(int count) {
         this.count = count;
     }
+
+    public double getPrice() {
+        return product.getPrice() * count;
+    }
 }

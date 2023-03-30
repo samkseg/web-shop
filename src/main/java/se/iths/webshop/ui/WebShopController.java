@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import se.iths.webshop.business.*;
 
-import java.util.ArrayList;
-import java.util.Optional;
 
 @Controller
 public class WebShopController {
@@ -76,11 +74,11 @@ public class WebShopController {
     @PostMapping("/update-cart")
     public String updateCartItem(Model model, @RequestParam long id, @RequestParam int count) {
         if (webShopService.getUser() instanceof Customer) {
-            Optional<OrderLine> optionalOrderLine = webShopService.getCart().findById(id);
+            OrderLine orderLine = webShopService.getOrderLine(id);
             if (count == 0) {
-                webShopService.getCart().delete(optionalOrderLine.get());
+                webShopService.getCart().delete(orderLine);
             } else {
-                optionalOrderLine.get().setCount(count);
+                orderLine.setCount(count);
             }
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
@@ -103,12 +101,37 @@ public class WebShopController {
         return "login";
     }
 
+    @GetMapping("/checkout")
+    public String checkOut(Model model) {
+        if (webShopService.getUser() instanceof Customer) {
+            CustomerOrder order = webShopService.checkout();
+            ((Customer) webShopService.getUser()).addOrder(order);
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("items", webShopService.getOrderLines());
+            model.addAttribute("order", "Order success!");
+            return "cart-view";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
     @GetMapping("/cart-view")
     public String cartView(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
             return "cart-view";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @GetMapping("/orders")
+    public String orders(Model model) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("orders", webShopService.getOrders());
+            return "orders-view";
         }
         model.addAttribute("login", "Please log in first");
         return "login";

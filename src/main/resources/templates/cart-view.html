@@ -7,7 +7,8 @@
 <body>
 <b>Logged in</b></br>
 <p th:text="${login}"></p>
-<a href="/shop">View Shop</a></br>
+<a href="/shop">Return to Shop</a></br>
+<a href="/orders">View Orders</a></br>
 <a href="/logout">Logout</a></br></br>
 <b>Cart:</b></br>
 <div th:each="item : ${items}">
@@ -24,5 +25,9 @@
 <form action="/clear-cart" method="get">
     <input type="submit" value="Empty">
 </form>
+<form action="/checkout" method="get">
+    <input type="submit" value="Checkout">
+</form>
+<p th:text="${order}"></p>
 </body>
 </html>

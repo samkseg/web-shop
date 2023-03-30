@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 import se.iths.webshop.data.Cart;
+import se.iths.webshop.data.OrderRepository;
 import se.iths.webshop.data.PersonRepository;
 import se.iths.webshop.data.ProductRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +22,11 @@ public class WebShopService {
     ProductRepository productRepository;
 
     @Autowired
+    OrderRepository orderRepository;
+
+    @Autowired
     Cart cart;
+
     Person user;
 
     public WebShopService() {}
@@ -45,6 +51,10 @@ public class WebShopService {
     public OrderLine getOrderLine(long id) {
         Optional<OrderLine> optionalOrderLine = cart.findById(id);
         return optionalOrderLine.orElse(null);
+    }
+
+    public Person getUser() {
+        return user;
     }
 
     public Cart getCart() {
@@ -83,10 +93,6 @@ public class WebShopService {
         return "Logged out!";
     }
 
-    public Person getUser() {
-        return user;
-    }
-
     public String addProduct(String name, String category, double price) {
         productRepository.save(new Product(name, category, price));
         return "Product added!";
@@ -95,5 +101,16 @@ public class WebShopService {
     public String removeProduct(long id) {
         productRepository.delete(productRepository.findById(id).get());
         return "Product " + id + " was deleted!";
+    }
+
+    public CustomerOrder checkout() {
+        CustomerOrder order = new CustomerOrder(cart.findAll(), user.getId());
+        orderRepository.save(order);
+        clearCart();
+        return order;
+    }
+
+    public List<CustomerOrder> getOrders() {
+        return orderRepository.findByUserId(user.getId());
     }
 }

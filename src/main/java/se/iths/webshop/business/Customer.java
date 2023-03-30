@@ -1,6 +1,9 @@
 package se.iths.webshop.business;
 
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import se.iths.webshop.data.OrderRepository;
+import se.iths.webshop.data.ProductRepository;
 
 import java.util.List;
 
@@ -9,6 +12,7 @@ import java.util.List;
 public class Customer extends Person{
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<CustomerOrder> orders;
+
     public Customer (){}
 
     public Customer (String name, String email, String password){

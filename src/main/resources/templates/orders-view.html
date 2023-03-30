@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<b>Logged in</b></br>
+<p th:text="${login}"></p>
+<a href="/shop">Return to Shop</a></br>
+<a href="/cart-view">View Cart</a></br>
+<a href="/logout">Logout</a></br></br>
+<b>Orders:</b></br>
+<div th:each="order : ${orders}">
+    <span th:text="${order.getName()}"></span>
+</div>
+</body>
+</html>
