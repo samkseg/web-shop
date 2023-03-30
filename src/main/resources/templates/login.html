@@ -5,13 +5,13 @@
     <title>Web Shop Login</title>
 </head>
 <body>
-Login
+<b>Login</b>
 <form action="/login" method="post">
   Email: <input type="text" name="username"></br>
   Password: <input type="text" name="password"></br>
   <input type="submit" value="Login">
 </form>
-<p th:text="${loginResult}"></p>
+<p th:text="${login}"></p>
 <a href="/">Back</a></br>
 </body>
 </html>

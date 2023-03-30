@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Shop</title>
+</head>
+<body>
+<b><p th:text="${login}"></p></b>
+<a href="/shop">View Shop</a></br>
+<a href="/logout">Logout</a></br></br>
+<b>Cart:</b></br>
+<div th:each="item : ${items}">
+  <span th:text="${item.getCount()}"></span>
+  <span th:text="${item.getProduct().getName()}"></span>
+  <span th:text="${item.getProduct().getCategory()}"></span>
+  <span th:text="${item.getProduct().getPrice()}"></span>
+</div>
+</body>
+</html>

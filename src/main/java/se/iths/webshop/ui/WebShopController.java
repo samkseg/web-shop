@@ -37,8 +37,7 @@ public class WebShopController {
     @PostMapping("/login")
     public String loginUser(Model model, @RequestParam String username, @RequestParam String password) {
         String login = webShopService.loginUser(username, password);
-        Person checkUserType = webShopService.getUser();
-        model.addAttribute("loginResult", login);
+        model.addAttribute("login", login);
         model.addAttribute("products", webShopService.getProducts());
         if (login == "Wrong password or email!") {
             return "login";
@@ -47,6 +46,20 @@ public class WebShopController {
         } else {
             return "shop";
         }
+    }
+
+    @GetMapping("/shop")
+    public String shopView(Model model) {
+        model.addAttribute("login", webShopService.getUser().getName());
+        model.addAttribute("products", webShopService.getProducts());
+        return "shop";
+    }
+
+    @GetMapping("/cart-view")
+    public String cartView(Model model) {
+        model.addAttribute("login", webShopService.getUser().getName());
+        model.addAttribute("items", webShopService.getCart());
+        return "cart-view";
     }
 
     @GetMapping("/logout")

@@ -17,6 +17,8 @@ public class WebShopService {
 
     @Autowired
     ProductRepository productRepository;
+
+    List<OrderLine> cart;
     Person user;
 
     public WebShopService() {}
@@ -27,6 +29,10 @@ public class WebShopService {
 
     public List<Product> getProducts() {
         return productRepository.findAll();
+    }
+
+    public List<OrderLine> getCart() {
+        return cart;
     }
 
     public String registerUser(String username, String password) {
@@ -42,14 +48,14 @@ public class WebShopService {
         if (optionalPerson.isEmpty()) {
             return "Wrong password or email!";
         } else {
-            if (optionalPerson.get().getPassword() == password) {
+            if (optionalPerson.get().getPassword().equals(password)) {
                 user = optionalPerson.get();
             }
         }
         if (optionalPerson.get() instanceof Employee) {
             return "admin";
         }
-        return "Logged in as " + optionalPerson.get().getName();
+        return optionalPerson.get().getName();
     }
 
     public String logoutUser() {

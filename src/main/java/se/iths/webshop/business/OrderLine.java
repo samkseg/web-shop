@@ -19,6 +19,14 @@ public class OrderLine {
         this.count = count;
     }
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
