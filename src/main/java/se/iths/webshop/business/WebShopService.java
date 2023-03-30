@@ -53,13 +53,13 @@ public class WebShopService {
             }
         }
         if (optionalPerson.get() instanceof Employee) {
-            return "admin";
+            return "Admin";
         }
         return optionalPerson.get().getName();
     }
 
     public String logoutUser() {
-        Person user = null;
+        user = null;
         return "Logged out!";
     }
 

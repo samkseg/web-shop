@@ -5,14 +5,15 @@
   <title>Web Shop</title>
 </head>
 <body>
-<b>Admin</b></br>
+<b>Logged in as Admin</b></br>
+<p th:text="${login}"></p>
 <a href="/admin-add">Add Products</a></br>
 <a href="/logout">Logout</a></br></br>
 <b>Remove Product</b></br>
 <form action="/remove" method="post">
   Product ID: <input type="text" name="id"></br>
   <input type="submit" value="Remove"></form>
-<p th:text="${removeResult}"></p></br>
+<p th:text="${remove}"></p></br>
 <b>List of Products:</b></br>
 <div th:each="item : ${products}">
   <span th:text="${item.getName()}"></span>>
