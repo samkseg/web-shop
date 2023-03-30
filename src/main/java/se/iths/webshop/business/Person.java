@@ -23,6 +23,7 @@ public abstract class Person {
     private String name;
     @NotBlank
     @Size(min = 5, max = 15)
+    @Column(name = "password")
     private String password;
 
     public Person() {}

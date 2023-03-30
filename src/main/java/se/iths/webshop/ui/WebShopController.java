@@ -25,4 +25,27 @@ public class WebShopController {
         model.addAttribute("regcheck", check);
         return "reg";
     }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String loginUser(Model model, @RequestParam String username, @RequestParam String password) {
+        String login = webShopService.loginUser(username, password);
+        model.addAttribute("loginResult", login);
+        if (login == "Wrong password or email!") {
+            return "login";
+        } else {
+            return "shop";
+        }
+    }
+
+    @GetMapping("/logout")
+    public String logoutUser(Model model) {
+        String logout = webShopService.logoutUser();
+        model.addAttribute("loginResult", logout);
+        return "login";
+    }
 }

@@ -21,11 +21,28 @@ public class WebShopService {
         return personRepository.findAll();
     }
 
-    public String registerUser(String userLogin, String password) {
-        Optional<Person> optionalPerson = personRepository.findByName(userLogin);
+    public String registerUser(String username, String password) {
+        Optional<Person> optionalPerson = personRepository.findByName(username);
         if (optionalPerson.isEmpty()) {
-                user = personRepository.save(new Customer(userLogin, password));
-                return "Account created";
-        } else return "Account already exists";
+                user = personRepository.save(new Customer(username, password));
+                return "Account created!";
+        } else return "Account already exists!";
+    }
+
+    public String loginUser(String username, String password) {
+        Optional<Person> optionalPerson = personRepository.findByNameAndPassword(username, password);
+        if (optionalPerson.isEmpty()) {
+            return "Wrong password or email!";
+        } else {
+            if (optionalPerson.get().getPassword() == password) {
+                user = optionalPerson.get();
+            }
+        }
+        return "Logged in as " + optionalPerson.get().getName();
+    }
+
+    public String logoutUser() {
+        Person user = null;
+        return "Logged out!";
     }
 }
