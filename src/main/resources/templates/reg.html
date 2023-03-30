@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Shop</title>
+</head>
+<body>
+Register new account:
+<form action="/register" method="post">
+    Email: <input type="text" name="username"></br>
+    Password: <input type="text" name="password"></br>
+    <input type="submit" value="Register">
+</form>
+<p th:text="${regcheck}"></p>
+</body>
+</html>

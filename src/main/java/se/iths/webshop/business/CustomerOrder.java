@@ -5,18 +5,18 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class Order {
+public class CustomerOrder {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<OrderLine> items;
 
-    public Order() {}
+    public CustomerOrder() {}
 
-    public Order(List<OrderLine> items) {
-        this.items = items;
+    public CustomerOrder(List<OrderLine> itemsList) {
+        this.items = itemsList;
     }
 
     public List<OrderLine> getItems() {

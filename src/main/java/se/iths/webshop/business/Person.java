@@ -3,6 +3,7 @@ package se.iths.webshop.business;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,31 +14,22 @@ import java.util.List;
 @DiscriminatorColumn(name = "person_type")
 public abstract class Person {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
     @Email
     @NotBlank
+    @Column(name = "name")
     private String name;
     @NotBlank
+    @Size(min = 5, max = 15)
     private String password;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Order> orders;
 
     public Person() {}
 
     public Person(String name, String password) {
         this.name = name;
         this.password = password;
-        this.orders = new ArrayList<Order>();
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void addOrder(Order order) {
-        orders.add(order);
     }
 
     public void setId(Long id) {
