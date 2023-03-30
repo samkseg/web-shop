@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Shop</title>
+</head>
+<body>
+<b>Admin</b></br>
+<a href="/admin-view">View Inventory</a></br>
+<a href="/logout">Logout</a></br></br>
+<b>Add Product</b>
+<form action="/add" method="post">
+  Name: <input type="text" name="name"></br>
+  Category: <input type="text" name="category"></br>
+  Price: <input type="text" name="price"></br>
+  <input type="submit" value="Add">
+</form>
+<p th:text="${addResult}"></p></br>
+</body>
+</html>

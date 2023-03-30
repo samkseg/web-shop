@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 import se.iths.webshop.data.PersonRepository;
+import se.iths.webshop.data.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,12 +14,19 @@ import java.util.Optional;
 public class WebShopService {
     @Autowired
     PersonRepository personRepository;
+
+    @Autowired
+    ProductRepository productRepository;
     Person user;
 
     public WebShopService() {}
 
     public List<Person> getUsers() {
         return personRepository.findAll();
+    }
+
+    public List<Product> getProducts() {
+        return productRepository.findAll();
     }
 
     public String registerUser(String username, String password) {
@@ -39,7 +47,7 @@ public class WebShopService {
             }
         }
         if (optionalPerson.get() instanceof Employee) {
-            return "Logged in as admin";
+            return "admin";
         }
         return "Logged in as " + optionalPerson.get().getName();
     }
@@ -47,5 +55,19 @@ public class WebShopService {
     public String logoutUser() {
         Person user = null;
         return "Logged out!";
+    }
+
+    public Person getUser() {
+        return user;
+    }
+
+    public String addProduct(String name, String category, double price) {
+        productRepository.save(new Product(name, category, price));
+        return "Product added!";
+    }
+
+    public String removeProduct(long id) {
+        productRepository.delete(productRepository.findById(id).get());
+        return "Product " + id + " was deleted!";
     }
 }
