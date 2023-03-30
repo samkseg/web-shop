@@ -38,6 +38,9 @@ public class WebShopService {
                 user = optionalPerson.get();
             }
         }
+        if (optionalPerson.get() instanceof Employee) {
+            return "Logged in as admin";
+        }
         return "Logged in as " + optionalPerson.get().getName();
     }
 
