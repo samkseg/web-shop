@@ -11,8 +11,8 @@ public class Customer extends Person{
     private List<CustomerOrder> orders;
     public Customer (){}
 
-    public Customer (String name, String password){
-        super(name, password);
+    public Customer (String name, String email, String password){
+        super(name, email, password);
     }
 
     public List<CustomerOrder> getOrders() {

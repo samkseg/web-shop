@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 public class Employee extends Person{
     public Employee (){}
 
-    public Employee (String name, String password){
-        super(name, password);
+    public Employee (String name, String email, String password){
+        super(name, email, password);
     }
 }

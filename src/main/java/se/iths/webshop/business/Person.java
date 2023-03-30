@@ -17,10 +17,14 @@ public abstract class Person {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Email
     @NotBlank
+    @Size(min = 2, max = 20)
     @Column(name = "name")
     private String name;
+    @Email
+    @NotBlank
+    @Column(name = "email")
+    private String email;
     @NotBlank
     @Size(min = 5, max = 15)
     @Column(name = "password")
@@ -28,8 +32,9 @@ public abstract class Person {
 
     public Person() {}
 
-    public Person(String name, String password) {
+    public Person(String name, String email, String password) {
         this.name = name;
+        this.email = email;
         this.password = password;
     }
 
@@ -39,6 +44,10 @@ public abstract class Person {
 
     public Long getId() {
         return id;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getName() {

@@ -25,8 +25,8 @@ public class WebShopController {
     }
 
     @PostMapping("/register")
-    public String registerUser(Model model, @RequestParam String username, @RequestParam String password) {
-        String check =  webShopService.registerUser(username, password);
+    public String registerUser(Model model, @RequestParam String name, @RequestParam String email, @RequestParam String password) {
+        String check =  webShopService.registerUser(name, email, password);
         model.addAttribute("regcheck", check);
         return "reg";
     }
@@ -37,8 +37,8 @@ public class WebShopController {
     }
 
     @PostMapping("/login")
-    public String loginUser(Model model, @RequestParam String username, @RequestParam String password) {
-        String login = webShopService.loginUser(username, password);
+    public String loginUser(Model model, @RequestParam String email, @RequestParam String password) {
+        String login = webShopService.loginUser(email, password);
         model.addAttribute("login", login);
         model.addAttribute("products", webShopService.getProducts());
         if (login == "Wrong password or email!") {
@@ -83,7 +83,7 @@ public class WebShopController {
     @GetMapping("admin-add")
     public String adminViewAdd(Model model) {
         if (webShopService.getUser() instanceof Employee) {
-            model.addAttribute("login", "Admin " + webShopService.getUser().getName());
+            model.addAttribute("login", webShopService.getUser().getName());
             return "admin";
         }
         model.addAttribute("login", "Please log in first");

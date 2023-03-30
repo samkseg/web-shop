@@ -35,16 +35,16 @@ public class WebShopService {
         return cart;
     }
 
-    public String registerUser(String username, String password) {
-        Optional<Person> optionalPerson = personRepository.findByName(username);
+    public String registerUser(String name, String email, String password) {
+        Optional<Person> optionalPerson = personRepository.findByName(name);
         if (optionalPerson.isEmpty()) {
-                user = personRepository.save(new Customer(username, password));
+                user = personRepository.save(new Customer(name, email, password));
                 return "Account created!";
         } else return "Account already exists!";
     }
 
-    public String loginUser(String username, String password) {
-        Optional<Person> optionalPerson = personRepository.findByNameAndPassword(username, password);
+    public String loginUser(String email, String password) {
+        Optional<Person> optionalPerson = personRepository.findByEmailAndPassword(email, password);
         if (optionalPerson.isEmpty()) {
             return "Wrong password or email!";
         } else {
