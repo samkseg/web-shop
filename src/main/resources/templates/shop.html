@@ -14,7 +14,11 @@
     <span th:text="${item.getName()}"></span>
     <span th:text="${item.getCategory()}"></span>
     <span th:text="${item.getPrice()}"></span>
+    <form action="/add-to-cart" method="post">
+        Amount: <input type="number" name="count" value="1">
+        <input type="hidden" name="id" th:value="${item.getId()}">
+        <input type="submit" value="Buy">
+    </form>
 </div>
-
 </body>
 </html>

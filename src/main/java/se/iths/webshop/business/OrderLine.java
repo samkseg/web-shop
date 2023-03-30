@@ -34,4 +34,8 @@ public class OrderLine {
     public Long getId() {
         return id;
     }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 }

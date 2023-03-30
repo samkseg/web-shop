@@ -3,6 +3,7 @@ package se.iths.webshop.business;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
+import se.iths.webshop.data.Cart;
 import se.iths.webshop.data.PersonRepository;
 import se.iths.webshop.data.ProductRepository;
 
@@ -18,7 +19,8 @@ public class WebShopService {
     @Autowired
     ProductRepository productRepository;
 
-    List<OrderLine> cart;
+    @Autowired
+    Cart cart;
     Person user;
 
     public WebShopService() {}
@@ -31,7 +33,21 @@ public class WebShopService {
         return productRepository.findAll();
     }
 
-    public List<OrderLine> getCart() {
+    public List<OrderLine> getOrderLines() {
+        return cart.findAll();
+    }
+
+    public Product getProduct(long id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        return optionalProduct.orElse(null);
+    }
+
+    public OrderLine getOrderLine(long id) {
+        Optional<OrderLine> optionalOrderLine = cart.findById(id);
+        return optionalOrderLine.orElse(null);
+    }
+
+    public Cart getCart() {
         return cart;
     }
 
@@ -58,6 +74,10 @@ public class WebShopService {
         return optionalPerson.get().getName();
     }
 
+    public String clearCart(){
+        cart.deleteAll();
+        return "Cart emptied";
+    }
     public String logoutUser() {
         user = null;
         return "Logged out!";

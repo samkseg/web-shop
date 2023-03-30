@@ -6,11 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import se.iths.webshop.business.Customer;
-import se.iths.webshop.business.Employee;
-import se.iths.webshop.business.Person;
-import se.iths.webshop.business.WebShopService;
+import se.iths.webshop.business.*;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
@@ -62,11 +60,54 @@ public class WebShopController {
         return "login";
     }
 
+    @PostMapping("/add-to-cart")
+    public String addToCart(Model model, @RequestParam long id, @RequestParam int count) {
+        if (webShopService.getUser() instanceof Customer) {
+            Product product = webShopService.getProduct(id);
+            webShopService.getCart().save(new OrderLine(product, count));
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("products", webShopService.getProducts());
+            return "shop";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @PostMapping("/update-cart")
+    public String updateCartItem(Model model, @RequestParam long id, @RequestParam int count) {
+        if (webShopService.getUser() instanceof Customer) {
+            Optional<OrderLine> optionalOrderLine = webShopService.getCart().findById(id);
+            if (count == 0) {
+                webShopService.getCart().delete(optionalOrderLine.get());
+            } else {
+                optionalOrderLine.get().setCount(count);
+            }
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("items", webShopService.getOrderLines());
+            return "cart-view";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @GetMapping("/clear-cart")
+    public String updateCartItem(Model model) {
+        if (webShopService.getUser() instanceof Customer) {
+            String clear = webShopService.clearCart();
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("items", webShopService.getOrderLines());
+            model.addAttribute("changes", clear);
+            return "cart-view";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
     @GetMapping("/cart-view")
     public String cartView(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("items", webShopService.getCart());
+            model.addAttribute("items", webShopService.getOrderLines());
             return "cart-view";
         }
         model.addAttribute("login", "Please log in first");

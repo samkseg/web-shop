@@ -11,10 +11,18 @@
 <a href="/logout">Logout</a></br></br>
 <b>Cart:</b></br>
 <div th:each="item : ${items}">
-  <span th:text="${item.getCount()}"></span>
-  <span th:text="${item.getProduct().getName()}"></span>
-  <span th:text="${item.getProduct().getCategory()}"></span>
-  <span th:text="${item.getProduct().getPrice()}"></span>
+    <span th:text="${item.getCount()}"></span>
+    <span th:text="${item.getProduct().getName()}"></span>
+    <span th:text="${item.getProduct().getCategory()}"></span>
+    <span th:text="${item.getProduct().getPrice()}"></span>
+    <form action="/update-cart" method="post">
+        Amount: <input type="number" name="count" th:value="${item.getCount()}">
+        <input type="hidden" name="id" th:value="${item.getId()}">
+        <input type="submit" value="Update">
+    </form>
 </div>
+<form action="/clear-cart" method="get">
+    <input type="submit" value="Empty">
+</form>
 </body>
 </html>
