@@ -3,7 +3,6 @@ package se.iths.webshop.business;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
-import se.iths.webshop.data.Cart;
 import se.iths.webshop.data.OrderRepository;
 import se.iths.webshop.data.PersonRepository;
 import se.iths.webshop.data.ProductRepository;
@@ -24,12 +23,13 @@ public class WebShopService {
     @Autowired
     OrderRepository orderRepository;
 
-    @Autowired
-    Cart cart;
+    public Cart cart;
 
     Person user;
 
-    public WebShopService() {}
+    public WebShopService() {
+        cart = new Cart();
+    }
 
     public List<Person> getUsers() {
         return personRepository.findAll();
@@ -44,7 +44,7 @@ public class WebShopService {
     }
 
     public List<OrderLine> getOrderLines() {
-        return cart.findAll();
+        return cart.getItems();
     }
 
     public Product getProduct(long id) {
@@ -75,6 +75,7 @@ public class WebShopService {
         if (optionalPerson.isEmpty()) {
                 user = personRepository.save(new Customer(name, email, password));
                 return "Account created!";
+
         } else return "Account already exists!";
     }
 
@@ -93,8 +94,24 @@ public class WebShopService {
         return optionalPerson.get().getName();
     }
 
+    public void addProductToCart(long id, int count) {
+        Product product = getProduct(id);
+        getCart().getItems().add(new OrderLine(product, count));
+    }
+
+    public void updateCartItem(long id, int count) {
+        Optional<OrderLine> orderLine = cart.findById(id);
+        if (orderLine.isPresent()) {
+            if (count == 0) {
+                getCart().getItems().remove(orderLine.get());
+            } else {
+                orderLine.get().setCount(count);
+            }
+        }
+    }
+
     public String clearCart(){
-        cart.deleteAll();
+        cart.getItems().clear();
         return "Cart emptied";
     }
     public String logoutUser() {
@@ -115,7 +132,7 @@ public class WebShopService {
     public CustomerOrder checkout() {;
 
         ArrayList list = new ArrayList<>();
-        for (OrderLine orderLine : getOrderLines()) {
+        for (OrderLine orderLine : cart.getItems()) {
             OrderItem orderItem = new OrderItem(orderLine.getProduct(), orderLine.getCount());
             list.add(orderItem);
         }

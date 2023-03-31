@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import se.iths.webshop.business.*;
 
+import java.util.Optional;
+
 @Controller
 public class WebShopController {
 
@@ -60,8 +62,7 @@ public class WebShopController {
     @PostMapping("/add-to-cart")
     public String addToCart(Model model, @RequestParam long id, @RequestParam int count) {
         if (webShopService.getUser() instanceof Customer) {
-            Product product = webShopService.getProduct(id);
-            webShopService.getCart().save(new OrderLine(product, count));
+            webShopService.addProductToCart(id ,count);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.getProducts());
             return "shop";
@@ -69,16 +70,11 @@ public class WebShopController {
         model.addAttribute("login", "Please log in first");
         return "login";
     }
-
+    // not working, cant read long parameter
     @PostMapping("/update-cart")
     public String updateCartItem(Model model, @RequestParam long id, @RequestParam int count) {
         if (webShopService.getUser() instanceof Customer) {
-            OrderLine orderLine = webShopService.getOrderLine(id);
-            if (count == 0) {
-                webShopService.getCart().delete(orderLine);
-            } else {
-                orderLine.setCount(count);
-            }
+            webShopService.updateCartItem(id, count);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
             return "cart-view";
@@ -88,12 +84,11 @@ public class WebShopController {
     }
 
     @GetMapping("/clear-cart")
-    public String updateCartItem(Model model) {
+    public String deleteCart(Model model) {
         if (webShopService.getUser() instanceof Customer) {
-            String clear = webShopService.clearCart();
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
-            model.addAttribute("changes", clear);
+            model.addAttribute("changes", webShopService.clearCart());
             return "cart-view";
         }
         model.addAttribute("login", "Please log in first");
@@ -108,6 +103,7 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
             model.addAttribute("order", "Order success!");
+            model.addAttribute("changes", webShopService.clearCart());
             return "cart-view";
         }
         model.addAttribute("login", "Please log in first");

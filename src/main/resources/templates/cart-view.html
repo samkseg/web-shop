@@ -16,7 +16,7 @@
     <span th:text="${item.getProduct().getName()}"></span>
     <span th:text="${item.getProduct().getCategory()}"></span>
     <span th:text="${item.getProduct().getPrice()}"></span>
-    <form action="/update-cart" method="post">
+    <form action="/{update-cart} + ${items}" method="post">
         Amount: <input type="number" name="count" th:value="${item.getCount()}">
         <input type="hidden" name="id" th:value="${item.getId()}">
         <input type="submit" value="Update">
