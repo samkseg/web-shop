@@ -107,10 +107,18 @@ public class WebShopService {
         }
     }
 
+    public double getCartTotal() {
+        double sum = 0;
+        for (OrderLine orderLine : getCart().getItems()) {
+            sum = sum + orderLine.getPrice();
+        }
+        return sum;
+    }
     public String clearCart(){
         cart.getItems().clear();
         return "Cart emptied";
     }
+
     public String logoutUser() {
         user = null;
         return "Logged out!";

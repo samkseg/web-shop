@@ -65,6 +65,7 @@ public class WebShopController {
             webShopService.addProductToCart(id ,count);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.getProducts());
+            model.addAttribute("changes", "Product added!");
             return "shop";
         }
         model.addAttribute("login", "Please log in first");
@@ -77,6 +78,7 @@ public class WebShopController {
             webShopService.updateCartItem(name, category, price, count);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
+            model.addAttribute("total", "Total: " + webShopService.getCartTotal());
             return "cart-view";
         }
         model.addAttribute("login", "Please log in first");
@@ -89,6 +91,7 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
             model.addAttribute("changes", webShopService.clearCart());
+            model.addAttribute("total", "Total: " + webShopService.getCartTotal());
             return "cart-view";
         }
         model.addAttribute("login", "Please log in first");
@@ -104,6 +107,7 @@ public class WebShopController {
             model.addAttribute("items", webShopService.getOrderLines());
             model.addAttribute("order", "Order success!");
             model.addAttribute("changes", webShopService.clearCart());
+            model.addAttribute("total", "Total: " + webShopService.getCartTotal());
             return "cart-view";
         }
         model.addAttribute("login", "Please log in first");
@@ -115,6 +119,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
+            model.addAttribute("total", "Total: " + webShopService.getCartTotal());
             return "cart-view";
         }
         model.addAttribute("login", "Please log in first");
