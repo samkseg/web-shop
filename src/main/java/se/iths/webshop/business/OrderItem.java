@@ -3,8 +3,8 @@ package se.iths.webshop.business;
 import jakarta.persistence.*;
 
 @Entity
-public class OrderLine {
-    @Id
+public class OrderItem {
+    @Id()
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
@@ -12,9 +12,9 @@ public class OrderLine {
     Product product;
     int count;
 
-    public OrderLine() {}
+    public OrderItem() {}
 
-    public OrderLine(Product product, int count) {
+    public OrderItem(Product product, int count) {
         this.product = product;
         this.count = count;
     }

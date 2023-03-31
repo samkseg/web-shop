@@ -8,7 +8,7 @@ import se.iths.webshop.data.OrderRepository;
 import se.iths.webshop.data.PersonRepository;
 import se.iths.webshop.data.ProductRepository;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +37,10 @@ public class WebShopService {
 
     public List<Product> getProducts() {
         return productRepository.findAll();
+    }
+
+    public List<CustomerOrder> getOrders() {
+        return orderRepository.findByUserId(user.getId());
     }
 
     public List<OrderLine> getOrderLines() {
@@ -108,14 +112,17 @@ public class WebShopService {
         return "Product " + id + " was deleted!";
     }
 
-    public CustomerOrder checkout() {
-        CustomerOrder order = new CustomerOrder(cart.findAll(), user.getId());
-        orderRepository.save(order);
-        clearCart();
-        return order;
-    }
+    public CustomerOrder checkout() {;
 
-    public List<CustomerOrder> getOrders() {
-        return orderRepository.findByUserId(user.getId());
+        ArrayList list = new ArrayList<>();
+        for (OrderLine orderLine : getOrderLines()) {
+            OrderItem orderItem = new OrderItem(orderLine.getProduct(), orderLine.getCount());
+            list.add(orderItem);
+        }
+        CustomerOrder order = new CustomerOrder();
+        order.setItems(list);
+        order.setUserId(user.getId());
+        orderRepository.save(order);
+        return order;
     }
 }

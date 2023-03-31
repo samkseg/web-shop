@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import se.iths.webshop.business.*;
 
-
 @Controller
 public class WebShopController {
 
@@ -101,7 +100,7 @@ public class WebShopController {
         return "login";
     }
 
-    @GetMapping("/checkout")
+    @PostMapping("/checkout")
     public String checkOut(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             CustomerOrder order = webShopService.checkout();

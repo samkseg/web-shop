@@ -2,6 +2,8 @@ package se.iths.webshop.business;
 
 import jakarta.persistence.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,36 +15,30 @@ public class CustomerOrder {
     @Column(name = "userId", nullable = false)
     private Long userId;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<OrderLine> items;
+    private List<OrderItem> items;
 
     public CustomerOrder() {}
-
-    public CustomerOrder(List<OrderLine> items, long userId) {
-        this.items = items;
-        this.userId = userId;
-    }
-
     public String getName() {
         return "Order no. " + getId();
     }
     public String getTotalPrice() {
         double sum = 0;
-        for (OrderLine orderLine : items) {
-            sum = sum + orderLine.getPrice();
+        for (OrderItem orderItem : items) {
+            sum = sum + orderItem.getPrice();
         }
         return "Total price: " + sum + " SEK";
     }
 
-    public List<OrderLine> getItems() {
+    public List<OrderItem> getItems() {
         return items;
     }
 
-    public void setItems(List<OrderLine> items) {
+    public void setItems(List<OrderItem> items) {
         this.items = items;
     }
 
-    public void addItem(OrderLine orderLine) {
-        items.add(orderLine);
+    public void addItem(OrderItem orderItem) {
+        items.add(orderItem);
     }
 
     public Long getUserId() {
