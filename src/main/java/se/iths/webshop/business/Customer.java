@@ -1,9 +1,6 @@
 package se.iths.webshop.business;
 
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import se.iths.webshop.data.OrderRepository;
-import se.iths.webshop.data.ProductRepository;
 
 import java.util.List;
 

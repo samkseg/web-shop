@@ -25,12 +25,12 @@ public class CustomerOrder {
     public String getName() {
         return "Order no. " + getId();
     }
-    public double getTotalPrice() {
+    public String getTotalPrice() {
         double sum = 0;
         for (OrderLine orderLine : items) {
             sum = sum + orderLine.getPrice();
         }
-        return sum;
+        return "Total price: " + sum + " SEK";
     }
 
     public List<OrderLine> getItems() {

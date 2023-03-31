@@ -137,6 +137,20 @@ public class WebShopController {
         return "login";
     }
 
+    @PostMapping("/order")
+    public String orderView(Model model, @RequestParam long id) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("order", webShopService.getOrder(id).getName());
+            model.addAttribute("items", webShopService.getOrder(id).getItems());
+            model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
+
+            return "order-view";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
     @GetMapping("/logout")
     public String logoutUser(Model model) {
         String logout = webShopService.logoutUser();

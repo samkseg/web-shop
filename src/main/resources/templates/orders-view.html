@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Web Shop</title>
 </head>
 <body>
 <b>Logged in</b></br>
@@ -13,6 +13,10 @@
 <b>Orders:</b></br>
 <div th:each="order : ${orders}">
     <span th:text="${order.getName()}"></span>
+    <form action="/order" method="post">
+        <input type="hidden" name="id" th:value="${order.getId()}">
+        <input type="submit" value="View">
+    </form>
 </div>
 </body>
 </html>

@@ -35,6 +35,10 @@ public class OrderLine {
         return id;
     }
 
+    public String getName() {
+        return count + " " + product.getName() + " " + getPrice();
+    }
+
     public void setCount(int count) {
         this.count = count;
     }

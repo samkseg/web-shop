@@ -53,6 +53,11 @@ public class WebShopService {
         return optionalOrderLine.orElse(null);
     }
 
+    public CustomerOrder getOrder(long id) {
+        Optional<CustomerOrder> optionalOrder = orderRepository.findById(id);
+        return optionalOrder.orElse(null);
+    }
+
     public Person getUser() {
         return user;
     }
