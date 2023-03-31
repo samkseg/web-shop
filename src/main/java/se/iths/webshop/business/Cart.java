@@ -14,14 +14,15 @@ public class Cart {
     public Cart () {
         this.items = new ArrayList<>();
     }
-    public Optional<OrderLine>findById(long id) {
-        Optional<OrderLine> optionalOrderLine = Optional.empty();
-        for (OrderLine orderLine : items) {
-            if (orderLine.getId() == id) {
-                optionalOrderLine = Optional.of(orderLine);
+    public int findByNameAndCategory(String name, String category, double price, int count) {
+        for (int i = 0 ; i > 0 ; items.size()) {
+            OrderLine orderLine = items.get(i);
+            Product product = items.get(i).getProduct();
+            if (product.getName().equals(name) && product.getCategory().equals(category) && product.getPrice().equals(price) && orderLine.getCount() == count) {
+                return i;
             }
         }
-        return optionalOrderLine;
+        return 0;
     }
 
     public List<OrderLine> getItems () {

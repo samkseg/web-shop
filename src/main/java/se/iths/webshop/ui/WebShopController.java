@@ -70,11 +70,11 @@ public class WebShopController {
         model.addAttribute("login", "Please log in first");
         return "login";
     }
-    // not working, cant read long parameter
+
     @PostMapping("/update-cart")
-    public String updateCartItem(Model model, @RequestParam long id, @RequestParam int count) {
+    public String updateCartItem(Model model, @RequestParam String name, @RequestParam String category, @RequestParam double price, @RequestParam int count) {
         if (webShopService.getUser() instanceof Customer) {
-            webShopService.updateCartItem(id, count);
+            webShopService.updateCartItem(name, category, price, count);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
             return "cart-view";

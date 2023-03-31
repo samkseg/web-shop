@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 import se.iths.webshop.data.OrderRepository;
+import se.iths.webshop.data.OrderedProductRepository;
 import se.iths.webshop.data.PersonRepository;
 import se.iths.webshop.data.ProductRepository;
 
@@ -22,6 +23,9 @@ public class WebShopService {
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
+    OrderedProductRepository orderedProductRepository;
 
     public Cart cart;
 
@@ -50,11 +54,6 @@ public class WebShopService {
     public Product getProduct(long id) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         return optionalProduct.orElse(null);
-    }
-
-    public OrderLine getOrderLine(long id) {
-        Optional<OrderLine> optionalOrderLine = cart.findById(id);
-        return optionalOrderLine.orElse(null);
     }
 
     public CustomerOrder getOrder(long id) {
@@ -99,14 +98,12 @@ public class WebShopService {
         getCart().getItems().add(new OrderLine(product, count));
     }
 
-    public void updateCartItem(long id, int count) {
-        Optional<OrderLine> orderLine = cart.findById(id);
-        if (orderLine.isPresent()) {
-            if (count == 0) {
-                getCart().getItems().remove(orderLine.get());
-            } else {
-                orderLine.get().setCount(count);
-            }
+    public void updateCartItem(String name, String category, double price, int count) {
+        int index = cart.findByNameAndCategory(name, category, price, count );
+        if (count == 0) {
+            getCart().getItems().remove(index);
+        } else {
+            getCart().getItems().get(index).setCount(count);
         }
     }
 
@@ -130,11 +127,13 @@ public class WebShopService {
     }
 
     public CustomerOrder checkout() {;
-
         ArrayList list = new ArrayList<>();
         for (OrderLine orderLine : cart.getItems()) {
-            OrderItem orderItem = new OrderItem(orderLine.getProduct(), orderLine.getCount());
+            Product product = orderLine.getProduct();
+            OrderedProduct orderedProduct = new OrderedProduct(product.getName(), product.getCategory(), product.getPrice());
+            OrderItem orderItem = new OrderItem(orderedProduct, orderLine.getCount());
             list.add(orderItem);
+            orderedProductRepository.save(orderedProduct);
         }
         CustomerOrder order = new CustomerOrder();
         order.setItems(list);
