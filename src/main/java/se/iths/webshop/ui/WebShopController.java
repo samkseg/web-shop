@@ -3,9 +3,7 @@ package se.iths.webshop.ui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import se.iths.webshop.business.*;
 
 @Controller
@@ -52,6 +50,41 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.getProducts());
             return "shop";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @PostMapping("/search")
+    public String search(Model model, @RequestParam String text) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("products", webShopService.searchProduct(text));
+            return "shop";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @GetMapping("/category")
+    public String category(Model model) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("products", webShopService.getProducts());
+            return "category";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @RequestMapping("/category/{category}")
+    public String category(Model model, @PathVariable("category") String category) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("products", webShopService.findByCategory(category));
+            return "category";
         }
         model.addAttribute("login", "Please log in first");
         return "login";

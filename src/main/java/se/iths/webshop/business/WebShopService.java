@@ -58,6 +58,24 @@ public class WebShopService {
         return optionalOrder.orElse(null);
     }
 
+    public List<String> getCategories() {
+        List<String> categories = new ArrayList<>();
+        for (Product product : productRepository.findAll()) {
+            if (!categories.contains(product.getCategory())) {
+                categories.add(product.getCategory());
+            }
+        }
+        return categories;
+    }
+
+    public List<Product> searchProduct(String text) {
+        return productRepository.findAll().stream().filter(product -> product.getName().toLowerCase().contains(text.toLowerCase())).toList();
+    }
+
+    public List<Product> findByCategory(String category) {
+        return productRepository.findAll().stream().filter(product -> product.getCategory().contains(category)).toList();
+    }
+
     public Person getUser() {
         return user;
     }

@@ -9,8 +9,13 @@
 <p th:text="${login}"></p>
 <a href="/cart-view">View Cart</a></br>
 <a href="/shop">View Shop</a></br>
+<a href="/category">View Categories</a></br>
 <a href="/orders">View Orders</a></br>
 <a href="/logout">Logout</a></br></br>
+<form action="/search" method="post">
+    <input type="text" name="text">
+    <input type="submit" value="Search">
+</form>
 <b>Products:</b></br>
 <div th:each="item : ${products}">
     <span th:text="${item.getName()}"></span>
