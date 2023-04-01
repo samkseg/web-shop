@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Web Shop</title>
+    <meta charset="UTF-8">
+    <title>Web Shop</title>
 </head>
 <body>
 <b>Logged in</b></br>
 <p th:text="${login}"></p>
-<a href="/shop">Return to Shop</a></br>
 <a href="/cart-view">View Cart</a></br>
+<a href="/shop">View Shop</a></br>
 <a href="/orders">View Orders</a></br>
 <a href="/logout">Logout</a></br></br>
 <b><p th:text="${order}"></p></b>
 <div th:each="item : ${items}">
-  <span th:text="${item.getName()}"></span>
+    <span th:text="${item.getName()}"></span>
 </div>
 <p th:text="${total}"></p>
 <div th:if="${confirm} == true">
-  Order has been confirmed!
+    Order has been confirmed!
 </div>
 <div th:if="${process} == true">
-  Order has been sent!
+    Order has been sent!
 </div>
 <div th:if="${cancel} == true">
-  Order has been canceled!
+    Order has been canceled!
 </div>
 </body>
 </html>

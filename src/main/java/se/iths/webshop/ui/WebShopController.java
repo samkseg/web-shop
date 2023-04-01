@@ -102,8 +102,9 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             CustomerOrder order = webShopService.checkout();
             ((Customer) webShopService.getUser()).addOrder(order);
+            webShopService.clearCart();
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("items", webShopService.getOrderLines());
+            model.addAttribute("items", order.getItems());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             model.addAttribute("message", "Order has been placed!");
             return "confirmed";

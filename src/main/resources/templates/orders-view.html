@@ -7,8 +7,9 @@
 <body>
 <b>Logged in</b></br>
 <p th:text="${login}"></p>
-<a href="/shop">Return to Shop</a></br>
 <a href="/cart-view">View Cart</a></br>
+<a href="/shop">View Shop</a></br>
+<a href="/orders">View Orders</a></br>
 <a href="/logout">Logout</a></br></br>
 <b>Orders:</b></br>
 <div th:each="order : ${orders}">
