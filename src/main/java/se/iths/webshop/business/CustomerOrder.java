@@ -18,6 +18,7 @@ public class CustomerOrder {
     private List<OrderItem> items;
     private boolean confirmed;
     private boolean processed;
+    private boolean canceled;
 
     public CustomerOrder() {
         confirmed = false;
@@ -32,6 +33,14 @@ public class CustomerOrder {
             sum = sum + orderItem.getPrice();
         }
         return "Total price: " + sum + " SEK";
+    }
+
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
     }
 
     public boolean isConfirmed() {

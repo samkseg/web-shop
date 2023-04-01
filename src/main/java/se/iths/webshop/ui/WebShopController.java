@@ -157,6 +157,7 @@ public class WebShopController {
             model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
             model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
             model.addAttribute("process", webShopService.getOrder(id).isProcessed());
+            model.addAttribute("cancel", webShopService.getOrder(id).isCanceled());
             return "order-view";
         }
         model.addAttribute("login", "Please log in first");
@@ -261,7 +262,7 @@ public class WebShopController {
             webShopService.cancelOrder(id);
             model.addAttribute("orders", webShopService.getPendingOrders());
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("result", "Order canceled!");
+            model.addAttribute("message", "Order canceled!");
             return "admin-pending";
         }
         model.addAttribute("login", "Please log in first");
@@ -285,7 +286,7 @@ public class WebShopController {
             webShopService.processOrder(id);
             model.addAttribute("orders", webShopService.getPendingOrders());
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("result", "Order processed!");
+            model.addAttribute("message", "Order processed!");
             return "admin-process";
         }
         model.addAttribute("login", "Please log in first");
@@ -303,6 +304,19 @@ public class WebShopController {
             model.addAttribute("process", webShopService.getOrder(id).isProcessed());
             model.addAttribute("id", id);
             return "admin-process-order";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @PostMapping("/admin-process-cancel")
+    public String adminViewConfirmedCancel(Model model, @RequestParam long id) {
+        if (webShopService.getUser() instanceof Employee) {
+            webShopService.cancelOrder(id);
+            model.addAttribute("orders", webShopService.getPendingOrders());
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("message", "Order has been canceled!");
+            return "admin-process";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -329,6 +343,32 @@ public class WebShopController {
             model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
             model.addAttribute("process", webShopService.getOrder(id).isProcessed());
             return "admin-dispatch-order";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @GetMapping("/admin-cancel")
+    public String adminViewCanceled(Model model) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("orders", webShopService.getCanceledOrders());
+            model.addAttribute("login", webShopService.getUser().getName());
+            return "admin-cancel";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @PostMapping("/admin-cancel-order")
+    public String adminViewCanceledOrder(Model model, @RequestParam long id) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("order", webShopService.getOrder(id).getName());
+            model.addAttribute("items", webShopService.getOrder(id).getItems());
+            model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
+            model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
+            model.addAttribute("process", webShopService.getOrder(id).isProcessed());
+            return "admin-cancel-order";
         }
         model.addAttribute("login", "Please log in first");
         return "login";

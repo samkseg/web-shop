@@ -9,7 +9,7 @@
 <p th:text="${login}"></p>
 <a href="/admin-dispatch">Back</a></br>
 <a href="/logout">Logout</a></br></br>
-<b>Confirm order:</b>
+<b>Expedited order:</b>
 <div th:each="item : ${items}">
     <span th:text="${item.getCount()}"></span>
     <span th:text="${item.getProduct().getName()}"></span>

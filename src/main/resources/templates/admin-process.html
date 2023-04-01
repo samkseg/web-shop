@@ -10,9 +10,11 @@
 <a href="/admin-add">Add Products</a></br>
 <a href="/admin-view">View Products</a></br>
 <a href="/admin-pending">Confirm Orders</a></br>
-<a href="/admin-dispatch">View Orders</a></br>
+<a href="/admin-process">Process Orders</a></br>
+<a href="/admin-dispatch">View Completed Orders</a></br>
+<a href="/admin-cancel">View Canceled Orders</a></br>
 <a href="/logout">Logout</a></br></br>
-Orders to process:
+<b>Orders to process:</b>
 <div th:each="order : ${orders}">
     <span th:text="${order.getName()}"></span>
     <form action="/admin-process-order" method="post">
@@ -20,6 +22,6 @@ Orders to process:
         <input type="submit" value="View">
     </form>
 </div>
-<p th:text="${result}"></p>
+<p th:text="${message}"></p>
 </body>
 </html>

@@ -149,19 +149,24 @@ public class WebShopService {
     }
 
     public List<CustomerOrder> getPendingOrders() {
-        return orderRepository.findAll().stream().filter(order -> !order.isConfirmed() && !order.isProcessed()).toList();
+        return orderRepository.findAll().stream().filter(order -> !order.isConfirmed() && !order.isProcessed() && !order.isCanceled()).toList();
     }
 
-    public Object getConfirmedOrders() {
-        return orderRepository.findAll().stream().filter(order -> order.isConfirmed() && !order.isProcessed()).toList();
+    public List<CustomerOrder> getConfirmedOrders() {
+        return orderRepository.findAll().stream().filter(order -> order.isConfirmed() && !order.isProcessed() && !order.isCanceled()).toList();
     }
 
-    public Object getDispatchedOrders() {
-        return orderRepository.findAll().stream().filter(order -> order.isConfirmed() && order.isProcessed()).toList();
+    public List<CustomerOrder> getDispatchedOrders() {
+        return orderRepository.findAll().stream().filter(order -> !order.isConfirmed() && order.isProcessed() && !order.isCanceled()).toList();
+    }
+
+    public List<CustomerOrder> getCanceledOrders() {
+        return orderRepository.findAll().stream().filter(order -> !order.isConfirmed() && !order.isProcessed() && order.isCanceled()).toList();
     }
 
     public void confirmOrder(long id) {
         CustomerOrder order = getOrder(id);
+        order.setProcessed(false);
         order.setConfirmed(true);
         orderRepository.save(order);
 
@@ -169,6 +174,7 @@ public class WebShopService {
 
     public void processOrder(long id) {
         CustomerOrder order = getOrder(id);
+        order.setConfirmed(false);
         order.setProcessed(true);
         orderRepository.save(order);
 
@@ -176,6 +182,10 @@ public class WebShopService {
 
     public void cancelOrder(long id) {
         CustomerOrder order = getOrder(id);
-        orderRepository.delete(order);
+        order.setConfirmed(false);
+        order.setProcessed(false);
+        order.setCanceled(true);
+        orderRepository.save(order);
+
     }
 }

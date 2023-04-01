@@ -9,7 +9,7 @@
 <p th:text="${login}"></p>
 <a href="/admin-process">Back</a></br>
 <a href="/logout">Logout</a></br></br>
-<b>Confirm order:</b>
+<b>Process order:</b>
 <div th:each="item : ${items}">
     <span th:text="${item.getCount()}"></span>
     <span th:text="${item.getProduct().getName()}"></span>
@@ -21,6 +21,10 @@
 <form action="/admin-process-confirm" method="post">
     <input type="hidden" name="id" th:value="${id}">
     <input type="submit" value="Process">
+</form>
+<form action="/admin-process-cancel" method="post">
+    <input type="hidden" name="id" th:value="${id}">
+    <input type="submit" value="Cancel">
 </form>
 </body>
 </html>
