@@ -98,6 +98,18 @@ public class WebShopController {
         return "login";
     }
 
+    @PostMapping("/confirm")
+    public String confirm(Model model) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("items", webShopService.getOrderLines());
+            model.addAttribute("total", "Total: " + webShopService.getCartTotal());
+            return "confirm";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
     @PostMapping("/checkout")
     public String checkOut(Model model) {
         if (webShopService.getUser() instanceof Customer) {
@@ -144,7 +156,8 @@ public class WebShopController {
             model.addAttribute("order", webShopService.getOrder(id).getName());
             model.addAttribute("items", webShopService.getOrder(id).getItems());
             model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
-
+            model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
+            model.addAttribute("process", webShopService.getOrder(id).isProcessed());
             return "order-view";
         }
         model.addAttribute("login", "Please log in first");

@@ -16,6 +16,8 @@ public class CustomerOrder {
     private Long userId;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<OrderItem> items;
+    private boolean confirmed;
+    private boolean processed;
 
     public CustomerOrder() {}
     public String getName() {
@@ -27,6 +29,22 @@ public class CustomerOrder {
             sum = sum + orderItem.getPrice();
         }
         return "Total price: " + sum + " SEK";
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
+    }
+
+    public boolean isProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
     }
 
     public List<OrderItem> getItems() {
@@ -56,6 +74,5 @@ public class CustomerOrder {
     public void setId(Long id) {
         this.id = id;
     }
-
 
 }

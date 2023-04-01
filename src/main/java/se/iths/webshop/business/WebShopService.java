@@ -3,10 +3,7 @@ package se.iths.webshop.business;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
-import se.iths.webshop.data.OrderRepository;
-import se.iths.webshop.data.OrderedProductRepository;
-import se.iths.webshop.data.PersonRepository;
-import se.iths.webshop.data.ProductRepository;
+import se.iths.webshop.data.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +67,7 @@ public class WebShopService {
     }
 
     public String registerUser(String name, String email, String password) {
-        Optional<Person> optionalPerson = personRepository.findByName(name);
+        Optional<Person> optionalPerson = personRepository.findByEmail(email);
         if (optionalPerson.isEmpty()) {
                 user = personRepository.save(new Customer(name, email, password));
                 return "Account created!";

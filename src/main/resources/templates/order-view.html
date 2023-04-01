@@ -16,5 +16,11 @@
   <span th:text="${item.getName()}"></span>
 </div>
 <p th:text="${total}"></p>
+<div th:if="${confirm} == true">
+  Order has been confirmed!
+</div>
+<div th:if="${process} == true">
+  Order has been sent!
+</div>
 </body>
 </html>
