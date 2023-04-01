@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import se.iths.webshop.business.*;
+import se.iths.webshop.business.entity.Customer;
+import se.iths.webshop.business.entity.CustomerOrder;
+import se.iths.webshop.business.entity.Employee;
+import se.iths.webshop.business.service.WebShopService;
 
 @Controller
 public class WebShopController {
@@ -26,14 +29,14 @@ public class WebShopController {
 
     @GetMapping("/register-admin")
     public String registerAdmin(Model model) {
-        return "admin-reg";
+        return "admin/admin-reg";
     }
 
     @PostMapping("/register-admin-submit")
     public String registerAdmin(Model model, @RequestParam String name, @RequestParam String email, @RequestParam String password) {
         String check =  webShopService.registerAdmin(name, email, password);
         model.addAttribute("regcheck", check);
-        return "admin-reg";
+        return "admin/admin-reg";
     }
 
     @GetMapping("/login")
@@ -50,9 +53,9 @@ public class WebShopController {
             return "login";
         } else if (login == "Admin") {
             model.addAttribute("login", webShopService.getUser().getName());
-            return "admin";
+            return "admin/admin-add";
         } else {
-            return "shop";
+            return "shop/all-products";
         }
     }
 
@@ -61,7 +64,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.getProducts());
-            return "shop";
+            return "shop/all-products";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -72,7 +75,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.searchProduct(text));
-            return "shop";
+            return "shop/all-products";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -84,7 +87,7 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("categories", webShopService.getCategories());
             model.addAttribute("products", webShopService.getProducts());
-            return "category";
+            return "shop/category";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -96,7 +99,7 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("categories", webShopService.getCategories());
             model.addAttribute("products", webShopService.findByCategory(category));
-            return "category";
+            return "shop/category";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -108,7 +111,7 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.getProducts());
             model.addAttribute("message", webShopService.addProductToCart(id ,count));
-            return "shop";
+            return "shop/all-products";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -122,7 +125,7 @@ public class WebShopController {
             model.addAttribute("items", webShopService.getOrderLines());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             model.addAttribute("emptycart", webShopService.getCart().getItems().size() < 1);
-            return "cart-view";
+            return "shop/cart-view";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -136,7 +139,7 @@ public class WebShopController {
             model.addAttribute("changes", webShopService.clearCart());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             model.addAttribute("emptycart", webShopService.getCart().getItems().size() < 1);
-            return "cart-view";
+            return "shop/cart-view";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -152,7 +155,7 @@ public class WebShopController {
             model.addAttribute("items", order.getItems());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             model.addAttribute("message", "Order has been placed!");
-            return "confirmed";
+            return "shop/confirmed";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -164,7 +167,7 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
-            return "checkout";
+            return "shop/checkout";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -177,7 +180,7 @@ public class WebShopController {
             model.addAttribute("items", webShopService.getOrderLines());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             model.addAttribute("emptycart", webShopService.getCart().getItems().size() < 1);
-            return "cart-view";
+            return "shop/cart-view";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -188,7 +191,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("orders", webShopService.getOrders());
-            return "orders-view";
+            return "shop/orders-view";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -204,7 +207,7 @@ public class WebShopController {
             model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
             model.addAttribute("process", webShopService.getOrder(id).isProcessed());
             model.addAttribute("cancel", webShopService.getOrder(id).isCanceled());
-            return "order-view";
+            return "shop/order-view";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -221,7 +224,7 @@ public class WebShopController {
     public String adminViewAdd(Model model) {
         if (webShopService.getUser() instanceof Employee) {
             model.addAttribute("login", webShopService.getUser().getName());
-            return "admin";
+            return "admin/admin-add";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -233,7 +236,7 @@ public class WebShopController {
             String add = webShopService.addProduct(name, category, price);
             model.addAttribute("addResult", add);
             model.addAttribute("login", webShopService.getUser().getName());
-            return "admin";
+            return "admin/admin-add";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -246,7 +249,7 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.getProducts());
             model.addAttribute("remove", remove);
-            return "admin-products";
+            return "admin/admin-products";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -257,7 +260,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Employee) {
             model.addAttribute("products", webShopService.getProducts());
             model.addAttribute("login", webShopService.getUser().getName());
-            return "admin-products";
+            return "admin/admin-products";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -268,7 +271,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Employee) {
             model.addAttribute("orders", webShopService.getPendingOrders());
             model.addAttribute("login", webShopService.getUser().getName());
-            return "admin-pending";
+            return "admin/admin-pending";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -280,7 +283,7 @@ public class WebShopController {
             model.addAttribute("orders", webShopService.getPendingOrders());
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("message", "Order confirmed!");
-            return "admin-pending";
+            return "admin/admin-pending";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -296,7 +299,7 @@ public class WebShopController {
             model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
             model.addAttribute("process", webShopService.getOrder(id).isProcessed());
             model.addAttribute("id", id);
-            return "admin-pending-order";
+            return "admin/admin-pending-order";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -309,7 +312,7 @@ public class WebShopController {
             model.addAttribute("orders", webShopService.getPendingOrders());
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("message", "Order canceled!");
-            return "admin-pending";
+            return "admin/admin-pending";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -320,7 +323,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Employee) {
             model.addAttribute("orders", webShopService.getConfirmedOrders());
             model.addAttribute("login", webShopService.getUser().getName());
-            return "admin-process";
+            return "admin/admin-process";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -333,7 +336,7 @@ public class WebShopController {
             model.addAttribute("orders", webShopService.getPendingOrders());
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("message", "Order processed!");
-            return "admin-process";
+            return "admin/admin-process";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -349,7 +352,7 @@ public class WebShopController {
             model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
             model.addAttribute("process", webShopService.getOrder(id).isProcessed());
             model.addAttribute("id", id);
-            return "admin-process-order";
+            return "admin/admin-process-order";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -362,7 +365,7 @@ public class WebShopController {
             model.addAttribute("orders", webShopService.getPendingOrders());
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("message", "Order has been canceled!");
-            return "admin-process";
+            return "admin/admin-process";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -373,7 +376,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Employee) {
             model.addAttribute("orders", webShopService.getDispatchedOrders());
             model.addAttribute("login", webShopService.getUser().getName());
-            return "admin-dispatch";
+            return "admin/admin-dispatch";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -388,7 +391,7 @@ public class WebShopController {
             model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
             model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
             model.addAttribute("process", webShopService.getOrder(id).isProcessed());
-            return "admin-dispatch-order";
+            return "admin/admin-dispatch-order";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -399,7 +402,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Employee) {
             model.addAttribute("orders", webShopService.getCanceledOrders());
             model.addAttribute("login", webShopService.getUser().getName());
-            return "admin-cancel";
+            return "admin/admin-cancel";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -414,7 +417,7 @@ public class WebShopController {
             model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
             model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
             model.addAttribute("process", webShopService.getOrder(id).isProcessed());
-            return "admin-cancel-order";
+            return "admin/admin-cancel-order";
         }
         model.addAttribute("login", "Please log in first");
         return "login";

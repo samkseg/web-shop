@@ -1,20 +1,19 @@
-package se.iths.webshop.business;
+package se.iths.webshop.business.entity;
 
 import jakarta.persistence.*;
 
 @Entity
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+public class OrderedProduct {@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+@Column(name = "id", nullable = false)
+private Long id;
     private String name;
     private String category;
     private Double price;
 
-    public Product() {}
+    public OrderedProduct() {}
 
-    public Product(String name, String category, Double price) {
+    public OrderedProduct(String name, String category, Double price) {
         this.name = name;
         this.category = category;
         this.price = price;
@@ -39,4 +38,7 @@ public class Product {
     public Double getPrice() {
         return price;
     }
+
+
+
 }

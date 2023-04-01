@@ -1,25 +1,25 @@
-package se.iths.webshop.business;
+package se.iths.webshop.business.entity;
 
 import jakarta.persistence.*;
 
 @Entity
-public class OrderLine {
-    @Id
+public class OrderItem {
+    @Id()
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    Product product;
+    OrderedProduct product;
     int count;
 
-    public OrderLine() {}
+    public OrderItem() {}
 
-    public OrderLine(Product product, int count) {
+    public OrderItem(OrderedProduct product, int count) {
         this.product = product;
         this.count = count;
     }
 
-    public Product getProduct() {
+    public OrderedProduct getProduct() {
         return product;
     }
 

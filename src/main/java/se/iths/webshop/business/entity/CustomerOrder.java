@@ -1,9 +1,7 @@
-package se.iths.webshop.business;
+package se.iths.webshop.business.entity;
 
 import jakarta.persistence.*;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

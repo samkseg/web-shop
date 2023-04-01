@@ -1,7 +1,7 @@
-package se.iths.webshop.data;
+package se.iths.webshop.data.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import se.iths.webshop.business.Person;
+import se.iths.webshop.business.entity.Person;
 
 import java.util.Optional;
 

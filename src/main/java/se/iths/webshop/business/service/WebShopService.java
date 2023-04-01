@@ -1,9 +1,14 @@
-package se.iths.webshop.business;
+package se.iths.webshop.business.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
+import se.iths.webshop.business.entity.*;
 import se.iths.webshop.data.*;
+import se.iths.webshop.data.repository.OrderRepository;
+import se.iths.webshop.data.repository.OrderedProductRepository;
+import se.iths.webshop.data.repository.PersonRepository;
+import se.iths.webshop.data.repository.ProductRepository;
 
 import java.util.ArrayList;
 import java.util.List;

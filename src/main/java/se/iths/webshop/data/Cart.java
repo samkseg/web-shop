@@ -1,11 +1,10 @@
-package se.iths.webshop.business;
+package se.iths.webshop.data;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import se.iths.webshop.business.OrderLine;
+import se.iths.webshop.business.entity.OrderLine;
+import se.iths.webshop.business.entity.Product;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class Cart {
 
