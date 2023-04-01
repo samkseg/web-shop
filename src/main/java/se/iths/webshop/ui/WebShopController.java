@@ -255,6 +255,19 @@ public class WebShopController {
         return "login";
     }
 
+    @PostMapping("/admin-pending-cancel")
+    public String adminViewPendingCancel(Model model, @RequestParam long id) {
+        if (webShopService.getUser() instanceof Employee) {
+            webShopService.cancelOrder(id);
+            model.addAttribute("orders", webShopService.getPendingOrders());
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("result", "Order canceled!");
+            return "admin-pending";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
     @GetMapping("/admin-process")
     public String adminViewConfirmed(Model model) {
         if (webShopService.getUser() instanceof Employee) {
@@ -320,5 +333,4 @@ public class WebShopController {
         model.addAttribute("login", "Please log in first");
         return "login";
     }
-
 }

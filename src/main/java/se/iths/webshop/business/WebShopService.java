@@ -173,4 +173,8 @@ public class WebShopService {
 
     }
 
+    public void cancelOrder(long id) {
+        CustomerOrder order = getOrder(id);
+        orderRepository.delete(order);
+    }
 }

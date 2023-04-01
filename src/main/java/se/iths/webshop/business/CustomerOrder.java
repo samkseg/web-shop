@@ -24,7 +24,7 @@ public class CustomerOrder {
         processed = false;
     }
     public String getName() {
-        return "Order no. " + getId();
+        return "Order no. " + getId() + ": " + getTotalPrice();
     }
     public String getTotalPrice() {
         double sum = 0;
