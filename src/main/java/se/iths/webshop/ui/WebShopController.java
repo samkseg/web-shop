@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import se.iths.webshop.business.*;
 
-import java.util.Optional;
-
 @Controller
 public class WebShopController {
 
@@ -200,7 +198,7 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.getProducts());
             model.addAttribute("remove", remove);
-            return "admin-view";
+            return "admin-products";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -211,9 +209,115 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Employee) {
             model.addAttribute("products", webShopService.getProducts());
             model.addAttribute("login", webShopService.getUser().getName());
-            return "admin-view";
+            return "admin-products";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
     }
+
+    @GetMapping("/admin-pending")
+    public String adminViewPending(Model model) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("orders", webShopService.getPendingOrders());
+            model.addAttribute("login", webShopService.getUser().getName());
+            return "admin-pending";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+    @PostMapping("/admin-pending-confirm")
+    public String adminViewPendingConfirm(Model model, @RequestParam long id) {
+        if (webShopService.getUser() instanceof Employee) {
+            webShopService.confirmOrder(id);
+            model.addAttribute("orders", webShopService.getPendingOrders());
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("result", "Order confirmed!");
+            return "admin-pending";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @PostMapping("/admin-pending-order")
+    public String adminViewPendingOrder(Model model, @RequestParam long id) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("order", webShopService.getOrder(id).getName());
+            model.addAttribute("items", webShopService.getOrder(id).getItems());
+            model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
+            model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
+            model.addAttribute("process", webShopService.getOrder(id).isProcessed());
+            model.addAttribute("id", id);
+            return "admin-pending-order";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @GetMapping("/admin-process")
+    public String adminViewConfirmed(Model model) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("orders", webShopService.getConfirmedOrders());
+            model.addAttribute("login", webShopService.getUser().getName());
+            return "admin-process";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @PostMapping("/admin-process-confirm")
+    public String adminViewProcessConfirm(Model model, @RequestParam long id) {
+        if (webShopService.getUser() instanceof Employee) {
+            webShopService.processOrder(id);
+            model.addAttribute("orders", webShopService.getPendingOrders());
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("result", "Order processed!");
+            return "admin-process";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @PostMapping("/admin-process-order")
+    public String adminViewConfirmedOrder(Model model, @RequestParam long id) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("order", webShopService.getOrder(id).getName());
+            model.addAttribute("items", webShopService.getOrder(id).getItems());
+            model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
+            model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
+            model.addAttribute("process", webShopService.getOrder(id).isProcessed());
+            model.addAttribute("id", id);
+            return "admin-process-order";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @GetMapping("/admin-dispatch")
+    public String adminViewDispatched(Model model) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("orders", webShopService.getDispatchedOrders());
+            model.addAttribute("login", webShopService.getUser().getName());
+            return "admin-dispatch";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @PostMapping("/admin-dispatch-order")
+    public String adminViewDispatchedOrder(Model model, @RequestParam long id) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("order", webShopService.getOrder(id).getName());
+            model.addAttribute("items", webShopService.getOrder(id).getItems());
+            model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
+            model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
+            model.addAttribute("process", webShopService.getOrder(id).isProcessed());
+            return "admin-dispatch-order";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
 }

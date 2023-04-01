@@ -146,4 +146,31 @@ public class WebShopService {
         orderRepository.save(order);
         return order;
     }
+
+    public List<CustomerOrder> getPendingOrders() {
+        return orderRepository.findAll().stream().filter(order -> !order.isConfirmed() && !order.isProcessed()).toList();
+    }
+
+    public Object getConfirmedOrders() {
+        return orderRepository.findAll().stream().filter(order -> order.isConfirmed() && !order.isProcessed()).toList();
+    }
+
+    public Object getDispatchedOrders() {
+        return orderRepository.findAll().stream().filter(order -> order.isConfirmed() && order.isProcessed()).toList();
+    }
+
+    public void confirmOrder(long id) {
+        CustomerOrder order = getOrder(id);
+        order.setConfirmed(true);
+        orderRepository.save(order);
+
+    }
+
+    public void processOrder(long id) {
+        CustomerOrder order = getOrder(id);
+        order.setProcessed(true);
+        orderRepository.save(order);
+
+    }
+
 }

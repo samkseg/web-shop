@@ -19,7 +19,10 @@ public class CustomerOrder {
     private boolean confirmed;
     private boolean processed;
 
-    public CustomerOrder() {}
+    public CustomerOrder() {
+        confirmed = false;
+        processed = false;
+    }
     public String getName() {
         return "Order no. " + getId();
     }

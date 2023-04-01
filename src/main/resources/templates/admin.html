@@ -6,15 +6,18 @@
 </head>
 <body>
 <b>Logged in as Admin</b></br>
-    <p th:text="${login}"></p>
-<a href="/admin-view">View Inventory</a></br>
+<p th:text="${login}"></p>
+<a href="/admin-view">View Products</a></br>
+<a href="/admin-pending">Confirm Orders</a></br>
+<a href="/admin-process">Process Orders</a></br>
+<a href="/admin-dispatch">View Orders</a></br>
 <a href="/logout">Logout</a></br></br>
 <b>Add Product</b>
 <form action="/add" method="post">
-  Name: <input type="text" name="name"></br>
-  Category: <input type="text" name="category"></br>
-  Price: <input type="text" name="price"></br>
-  <input type="submit" value="Add">
+    Name: <input type="text" name="name"></br>
+    Category: <input type="text" name="category"></br>
+    Price: <input type="text" name="price"></br>
+    <input type="submit" value="Add">
 </form>
 <p th:text="${addResult}"></p></br>
 </body>
