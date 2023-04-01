@@ -12,16 +12,28 @@ public class WebShopController {
     @Autowired
     WebShopService webShopService;
 
-    @GetMapping("/register")
+    @GetMapping("/register-user")
     public String register(Model model) {
         return "reg";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/register-user-submit")
     public String registerUser(Model model, @RequestParam String name, @RequestParam String email, @RequestParam String password) {
         String check =  webShopService.registerUser(name, email, password);
         model.addAttribute("regcheck", check);
         return "reg";
+    }
+
+    @GetMapping("/register-admin")
+    public String registerAdmin(Model model) {
+        return "admin-reg";
+    }
+
+    @PostMapping("/register-admin-submit")
+    public String registerAdmin(Model model, @RequestParam String name, @RequestParam String email, @RequestParam String password) {
+        String check =  webShopService.registerAdmin(name, email, password);
+        model.addAttribute("regcheck", check);
+        return "admin-reg";
     }
 
     @GetMapping("/login")

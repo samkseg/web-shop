@@ -84,6 +84,15 @@ public class WebShopService {
         return cart;
     }
 
+    public String registerAdmin(String name, String email, String password) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(email);
+        if (optionalPerson.isEmpty()) {
+            user = personRepository.save(new Employee(name, email, password));
+            return "Account created!";
+
+        } else return "Account already exists!";
+    }
+
     public String registerUser(String name, String email, String password) {
         Optional<Person> optionalPerson = personRepository.findByEmail(email);
         if (optionalPerson.isEmpty()) {
