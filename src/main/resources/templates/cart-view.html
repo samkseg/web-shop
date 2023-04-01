@@ -25,12 +25,14 @@
     </form>
 </div>
 <p th:text="${total}"></p>
-<form action="/clear-cart" method="get">
-    <input type="submit" value="Empty">
-</form>
-<form action="/confirm" method="post">
-    <input type="submit" value="Checkout">
-</form>
+<div th:if="${emptycart} == false">
+    <form action="/clear-cart" method="get">
+        <input type="submit" value="Empty">
+    </form>
+    <form action="/confirm" method="post">
+        <input type="submit" value="Checkout">
+    </form>
+</div>
 <p th:text="${order}"></p>
 </body>
 </html>

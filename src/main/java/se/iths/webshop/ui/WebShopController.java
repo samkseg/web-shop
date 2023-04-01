@@ -130,6 +130,7 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal());
+            model.addAttribute("emptycart", webShopService.getCart().getItems().size() < 1);
             return "cart-view";
         }
         model.addAttribute("login", "Please log in first");
