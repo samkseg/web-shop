@@ -96,29 +96,28 @@ public class WebShopController {
         return "login";
     }
 
-    @PostMapping("/confirm")
-    public String confirm(Model model) {
+    @PostMapping("/confirmed")
+    public String confirmed(Model model) {
         if (webShopService.getUser() instanceof Customer) {
+            CustomerOrder order = webShopService.checkout();
+            ((Customer) webShopService.getUser()).addOrder(order);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal());
-            return "confirm";
+            model.addAttribute("message", "Order has been placed!");
+            return "confirmed";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
     }
 
     @PostMapping("/checkout")
-    public String checkOut(Model model) {
+    public String confirm(Model model) {
         if (webShopService.getUser() instanceof Customer) {
-            CustomerOrder order = webShopService.checkout();
-            ((Customer) webShopService.getUser()).addOrder(order);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
-            model.addAttribute("order", "Order success!");
-            model.addAttribute("changes", webShopService.clearCart());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal());
-            return "cart-view";
+            return "checkout";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -232,7 +231,7 @@ public class WebShopController {
             webShopService.confirmOrder(id);
             model.addAttribute("orders", webShopService.getPendingOrders());
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("result", "Order confirmed!");
+            model.addAttribute("message", "Order confirmed!");
             return "admin-pending";
         }
         model.addAttribute("login", "Please log in first");
