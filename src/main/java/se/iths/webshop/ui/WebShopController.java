@@ -60,10 +60,9 @@ public class WebShopController {
     @PostMapping("/add-to-cart")
     public String addToCart(Model model, @RequestParam long id, @RequestParam int count) {
         if (webShopService.getUser() instanceof Customer) {
-            webShopService.addProductToCart(id ,count);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.getProducts());
-            model.addAttribute("changes", "Product added!");
+            model.addAttribute("message", webShopService.addProductToCart(id ,count));
             return "shop";
         }
         model.addAttribute("login", "Please log in first");
@@ -76,7 +75,7 @@ public class WebShopController {
             webShopService.updateCartItem(name, category, price, count);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
-            model.addAttribute("total", "Total: " + webShopService.getCartTotal());
+            model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             model.addAttribute("emptycart", webShopService.getCart().getItems().size() < 1);
             return "cart-view";
         }
@@ -90,7 +89,7 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
             model.addAttribute("changes", webShopService.clearCart());
-            model.addAttribute("total", "Total: " + webShopService.getCartTotal());
+            model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             model.addAttribute("emptycart", webShopService.getCart().getItems().size() < 1);
             return "cart-view";
         }
@@ -105,7 +104,7 @@ public class WebShopController {
             ((Customer) webShopService.getUser()).addOrder(order);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
-            model.addAttribute("total", "Total: " + webShopService.getCartTotal());
+            model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             model.addAttribute("message", "Order has been placed!");
             return "confirmed";
         }
@@ -118,7 +117,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
-            model.addAttribute("total", "Total: " + webShopService.getCartTotal());
+            model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             return "checkout";
         }
         model.addAttribute("login", "Please log in first");
@@ -130,7 +129,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
-            model.addAttribute("total", "Total: " + webShopService.getCartTotal());
+            model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             model.addAttribute("emptycart", webShopService.getCart().getItems().size() < 1);
             return "cart-view";
         }

@@ -90,9 +90,10 @@ public class WebShopService {
         return optionalPerson.get().getName();
     }
 
-    public void addProductToCart(long id, int count) {
+    public String addProductToCart(long id, int count) {
         Product product = getProduct(id);
         getCart().getItems().add(new OrderLine(product, count));
+        return product.getName() + " added to cart!";
     }
 
     public void updateCartItem(String name, String category, double price, int count) {
@@ -123,7 +124,7 @@ public class WebShopService {
 
     public String addProduct(String name, String category, double price) {
         productRepository.save(new Product(name, category, price));
-        return "Product added!";
+        return name + " added!";
     }
 
     public String removeProduct(long id) {
