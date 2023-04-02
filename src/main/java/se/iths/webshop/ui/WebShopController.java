@@ -224,7 +224,26 @@ public class WebShopController {
     public String orderView(Model model, @RequestParam long id) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("order", webShopService.getOrder(id).getName());
+            model.addAttribute("id", id);
+            model.addAttribute("name", webShopService.getOrder(id).getName());
+            model.addAttribute("items", webShopService.getOrder(id).getItems());
+            model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
+            model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
+            model.addAttribute("process", webShopService.getOrder(id).isProcessed());
+            model.addAttribute("cancel", webShopService.getOrder(id).isCanceled());
+            return "shop/order-view";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @PostMapping("/order-cancel")
+    public String orderCancel(Model model, @RequestParam long id) {
+        if (webShopService.getUser() instanceof Customer) {
+            webShopService.cancelOrder(id);
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("id", id);
+            model.addAttribute("name", webShopService.getOrder(id).getName());
             model.addAttribute("items", webShopService.getOrder(id).getItems());
             model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
             model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
