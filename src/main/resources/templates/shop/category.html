@@ -26,6 +26,7 @@
   <span>SEK</span>
   <form action="/add-item-category" method="post">
     Amount: <input type="number" name="count" value="1">
+    <input type="hidden" name="selected" th:value="${category}">
     <input type="hidden" name="id" th:value="${item.getId()}">
     <input type="submit" value="Buy">
   </form>

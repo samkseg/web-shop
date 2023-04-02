@@ -65,7 +65,7 @@ public class WebShopController {
     }
 
     @GetMapping("/search")
-    public String shopView(Model model) {
+    public String searchView(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.getProducts());
@@ -80,6 +80,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.searchProduct(text));
+            model.addAttribute("text", text);
             return "shop/search";
         }
         model.addAttribute("login", "Please log in first");
@@ -122,10 +123,10 @@ public class WebShopController {
     }
 
     @PostMapping("/add-item")
-    public String addToCart(Model model, @RequestParam long id, @RequestParam int count) {
+    public String addToCart(Model model, @RequestParam long id, @RequestParam int count, @RequestParam String searched) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("products", webShopService.getProducts());
+            model.addAttribute("products", webShopService.searchProduct(searched));
             model.addAttribute("message", webShopService.addProductToCart(id ,count));
             return "shop/search";
         }
@@ -134,11 +135,11 @@ public class WebShopController {
     }
 
     @PostMapping("/add-item-category")
-    public String addToCartFromCategory(Model model, @RequestParam long id, @RequestParam int count) {
+    public String addToCartFromCategory(Model model, @RequestParam long id, @RequestParam int count, @RequestParam String selected) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("categories", webShopService.getCategories());
-            model.addAttribute("products", webShopService.getProducts());
+            model.addAttribute("products", webShopService.findByCategory(selected));
             model.addAttribute("message", webShopService.addProductToCart(id ,count));
             return "shop/category";
         }
