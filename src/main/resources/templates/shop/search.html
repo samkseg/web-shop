@@ -25,7 +25,7 @@
     <span th:text="${item.getPrice()}"></span>
     <span>SEK</span>
     <form action="/add-item" method="post">
-        Amount: <input type="number" name="count" value="1">
+        Quantity: <input type="number" name="count" value="1">
         <input type="hidden" name="id" th:value="${item.getId()}">
         <input type="hidden" name="searched" th:value="${text}">
         <input type="submit" value="Buy">
