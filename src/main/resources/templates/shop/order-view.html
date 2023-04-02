@@ -12,7 +12,12 @@
 <a href="/search">Search</a></br>
 <a href="/orders">Orders</a></br>
 <a href="/logout">Logout</a></br></br>
-<div th:if="${cancel} == false and ${process} == false and ${cancel} == false">
+<b><p th:text="${name}"></p></b>
+<div th:each="item : ${items}">
+    <span th:text="${item.getName()}"></span>
+</div>
+<p th:text="${total}"></p>
+<div th:if="${confirm} == false and ${process} == false and ${cancel} == false">
     Order has been placed.
 </div>
 <div th:if="${confirm} == true">
@@ -23,12 +28,7 @@
 </div>
 <div th:if="${cancel} == true">
     Order has been canceled.
-</div>
-<b><p th:text="${name}"></p></b>
-<div th:each="item : ${items}">
-    <span th:text="${item.getName()}"></span>
-</div>
-<p th:text="${total}"></p>
+</div></br>
 <div th:if="${cancel} == false and ${process} == false">
     <form action="/order-cancel" method="post">
         <input type="hidden" name="id" th:value="${id}">
