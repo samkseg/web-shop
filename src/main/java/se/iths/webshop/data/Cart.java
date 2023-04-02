@@ -14,6 +14,11 @@ public class Cart {
     public Cart () {
         this.items = new ArrayList<>();
     }
+
+    public Cart (List<OrderLine> list) {
+        this.items = new ArrayList<>();
+        items.addAll(list);
+    }
     public Optional<OrderLine> findByName(String name) {
         for (OrderLine orderLine : items) {
             Product product = orderLine.getProduct();

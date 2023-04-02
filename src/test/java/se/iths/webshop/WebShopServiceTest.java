@@ -75,7 +75,7 @@ public class WebShopServiceTest {
 
     @Test
     public void shouldAddProduct() {
-        String message = webShopService.addProduct("iPhone", "Phone", 11000.0, "The latest iPhone modell" );
+        String message = webShopService.addProduct("iPhone", "Phone", 11000.0, "The latest iPhone model" );
 
         assertEquals("iPhone added!", message);
         verify(productRepository, times(1)).save(any(Product.class));
