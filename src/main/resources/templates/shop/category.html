@@ -15,19 +15,23 @@
 <b>Categories:</b>
 <div th:each="category : ${categories}">
   <a th:href="@{'/category/' + ${category}}"><span th:text="${category}"></span></a>
-</div></br>
+</div>
+<p th:text="${message}"></p>
 <b>Products:</b></br>
 <div th:each="item : ${products}">
   <span th:text="${item.getName()}"></span>
   <span th:text="${item.getCategory()}"></span>
   <span th:text="${item.getPrice()}"></span>
   <span>SEK</span>
-  <form action="/add-to-cart" method="post">
+  <form action="/add-item-category" method="post">
     Amount: <input type="number" name="count" value="1">
     <input type="hidden" name="id" th:value="${item.getId()}">
     <input type="submit" value="Buy">
   </form>
+  <form action="/product" method="post">
+    <input type="hidden" name="id" th:value="${item.getId()}">
+    <input type="submit" value="View">
+  </form>
 </div>
-<p th:text="${message}"></p>
 </body>
 </html>

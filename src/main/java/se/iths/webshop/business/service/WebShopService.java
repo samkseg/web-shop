@@ -154,8 +154,8 @@ public class WebShopService {
         return "Logged out!";
     }
 
-    public String addProduct(String name, String category, double price) {
-        productRepository.save(new Product(name, category, price));
+    public String addProduct(String name, String category, double price, String description) {
+        productRepository.save(new Product(name, category, price, description));
         return name + " added!";
     }
 

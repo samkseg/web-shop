@@ -81,6 +81,17 @@ public class WebShopController {
         return "login";
     }
 
+    @PostMapping("/product")
+    public String product(Model model, @RequestParam long id) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("product", webShopService.getProduct(id));
+            return "shop/product-view";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
     @GetMapping("/category")
     public String category(Model model) {
         if (webShopService.getUser() instanceof Customer) {
@@ -105,7 +116,7 @@ public class WebShopController {
         return "login";
     }
 
-    @PostMapping("/add-to-cart")
+    @PostMapping("/add-item")
     public String addToCart(Model model, @RequestParam long id, @RequestParam int count) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
@@ -117,6 +128,18 @@ public class WebShopController {
         return "login";
     }
 
+    @PostMapping("/add-item-category")
+    public String addToCartFromCategory(Model model, @RequestParam long id, @RequestParam int count) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("categories", webShopService.getCategories());
+            model.addAttribute("products", webShopService.getProducts());
+            model.addAttribute("message", webShopService.addProductToCart(id ,count));
+            return "shop/category";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
     @PostMapping("/update-cart")
     public String updateCartItem(Model model, @RequestParam String name, @RequestParam String category, @RequestParam double price, @RequestParam int count) {
         if (webShopService.getUser() instanceof Customer) {
@@ -231,9 +254,9 @@ public class WebShopController {
     }
 
     @PostMapping("/add")
-    public String addProduct(Model model, @RequestParam String name, @RequestParam String category, @RequestParam double price) {
+    public String addProduct(Model model, @RequestParam String name, @RequestParam String category, @RequestParam double price, @RequestParam String description) {
         if (webShopService.getUser() instanceof Employee) {
-            String add = webShopService.addProduct(name, category, price);
+            String add = webShopService.addProduct(name, category, price, description);
             model.addAttribute("addResult", add);
             model.addAttribute("login", webShopService.getUser().getName());
             return "admin/admin-add";
