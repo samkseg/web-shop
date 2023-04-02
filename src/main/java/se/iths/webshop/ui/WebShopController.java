@@ -143,9 +143,9 @@ public class WebShopController {
         return "login";
     }
     @PostMapping("/update-cart")
-    public String updateCartItem(Model model, @RequestParam String name, @RequestParam String category, @RequestParam double price, @RequestParam int count) {
+    public String updateCartItem(Model model, @RequestParam String name, @RequestParam int count) {
         if (webShopService.getUser() instanceof Customer) {
-            webShopService.updateCartItem(name, category, price, count);
+            webShopService.updateCartItem(name, count);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");

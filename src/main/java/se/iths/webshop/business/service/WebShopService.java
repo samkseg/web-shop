@@ -131,25 +131,18 @@ public class WebShopService {
 
     public String addProductToCart(long id, int count) {
         Product product = getProduct(id);
-        getCart().getItems().add(new OrderLine(product, count));
-        return product.getName() + " added to cart!";
+        if (cart.addProduct(product, count).isPresent()) {
+            return product.getName() + " added to cart!";
+        }
+        return "Product already in cart!";
     }
 
-    public void updateCartItem(String name, String category, double price, int count) {
-        int index = cart.findByNameAndCategory(name, category, price, count );
-        if (count == 0) {
-            getCart().getItems().remove(index);
-        } else {
-            getCart().getItems().get(index).setCount(count);
-        }
+    public void updateCartItem(String name, int count) {
+        cart.updateCartItem(name, count);
     }
 
     public double getCartTotal() {
-        double sum = 0;
-        for (OrderLine orderLine : getCart().getItems()) {
-            sum = sum + orderLine.getPrice();
-        }
-        return sum;
+        return cart.getTotal();
     }
     public String clearCart(){
         cart.getItems().clear();
