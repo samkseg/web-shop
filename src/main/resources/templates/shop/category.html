@@ -7,12 +7,13 @@
 <body>
 <b>Logged in</b></br>
 <p th:text="${login}"></p>
-<a href="/cart-view">View Cart</a></br>
-<a href="/shop">View Shop</a></br>
-<a href="/category">View Categories</a></br>
-<a href="/orders">View Orders</a></br>
+<a href="/cart">Cart</a></br>
+<a href="/category">Categories</a></br>
+<a href="/search">Search</a></br>
+<a href="/orders">Orders</a></br>
 <a href="/logout">Logout</a></br></br>
-<b>Categories:</b>
+<b>Categories:</b></br>
+<a href="/category">All</a></br>
 <div th:each="category : ${categories}">
   <a th:href="@{'/category/' + ${category}}"><span th:text="${category}"></span></a>
 </div>

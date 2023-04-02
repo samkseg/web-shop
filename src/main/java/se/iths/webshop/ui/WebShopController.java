@@ -18,7 +18,7 @@ public class WebShopController {
     public void setWebShopService(WebShopService webShopService) {
         this.webShopService = webShopService;
     }
-    
+
     @GetMapping("/register-user")
     public String register(Model model) {
         return "reg";
@@ -59,16 +59,17 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             return "admin/admin-add";
         } else {
-            return "shop/all-products";
+            model.addAttribute("categories", webShopService.getCategories());
+            return "shop/category";
         }
     }
 
-    @GetMapping("/shop")
+    @GetMapping("/search")
     public String shopView(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.getProducts());
-            return "shop/all-products";
+            return "shop/search";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -79,7 +80,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.searchProduct(text));
-            return "shop/all-products";
+            return "shop/search";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -126,7 +127,7 @@ public class WebShopController {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("products", webShopService.getProducts());
             model.addAttribute("message", webShopService.addProductToCart(id ,count));
-            return "shop/all-products";
+            return "shop/search";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
@@ -200,7 +201,7 @@ public class WebShopController {
         return "login";
     }
 
-    @GetMapping("/cart-view")
+    @GetMapping("/cart")
     public String cartView(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
