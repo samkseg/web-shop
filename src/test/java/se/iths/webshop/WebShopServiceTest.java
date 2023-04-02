@@ -5,6 +5,7 @@ import org.mockito.Mock;
 import se.iths.webshop.business.entity.Customer;
 import se.iths.webshop.business.entity.Employee;
 import se.iths.webshop.business.entity.Person;
+import se.iths.webshop.business.entity.Product;
 import se.iths.webshop.business.service.WebShopService;
 import se.iths.webshop.data.repository.OrderRepository;
 import se.iths.webshop.data.repository.OrderedProductRepository;
@@ -15,6 +16,8 @@ import se.iths.webshop.data.repository.implementation.OrderedProductRepositoryIm
 import se.iths.webshop.data.repository.implementation.PersonRepositoryImplementation;
 import se.iths.webshop.data.repository.implementation.ProductRepositoryImplementation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -68,5 +71,62 @@ public class WebShopServiceTest {
         webShopService.loginUser("admin@admin.com", "admin");
 
         assertEquals(employee, webShopService.getUser());
+    }
+
+    @Test
+    public void shouldAddProduct() {
+        String message = webShopService.addProduct("iPhone", "Phone", 11000.0, "The latest iPhone modell" );
+
+        assertEquals("iPhone added!", message);
+        verify(productRepository, times(1)).save(any(Product.class));
+    }
+
+    @Test
+    public void shouldFindProduct() {
+
+        Product product = new Product("iPhone", "Phone", 11000.0, "The latest iPhone modell");
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+
+        Product assertProduct = webShopService.getProduct(1L);
+        assertEquals(assertProduct, product);
+        verify(productRepository, times(1)).findById(1L);
+
+    }
+
+    @Test
+    public void shouldRemoveProduct() {
+        Product product = new Product("iPhone", "Phone", 11000.0, "The latest iPhone modell");
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+
+        String message = webShopService.removeProduct(1L);
+
+        assertEquals("Product 1 was deleted!", message);
+        verify(productRepository, times(1)).delete(any(Product.class));
+    }
+
+    @Test
+    public void shouldReturnSearchedProductsList() {
+        List<Product> list = new ArrayList<>();
+        list.add(new Product("iPhone", "Phone", 11000.0, "The latest iPhone modell"));
+        list.add(new Product("Galaxy 22", "Phone", 9000.0, "The latest Samsung Galaxy"));
+        when(productRepository.findAll()).thenReturn(list);
+
+        List<Product> assertedList = webShopService.searchProduct("IPHONE");
+
+        assertEquals(1, assertedList.size());
+        assertEquals("iPhone", assertedList.get(0).getName());
+    }
+
+    @Test
+    public void shouldReturnProductsByCategory() {
+        List<Product> list = new ArrayList<>();
+        list.add(new Product("iPhone", "Phone", 11000.0, "The latest iPhone modell"));
+        list.add(new Product("MacBook", "Laptop", 9000.0, "The latest MacBook"));
+        when(productRepository.findAll()).thenReturn(list);
+
+        List<Product> assertedList = webShopService.findByCategory("LAPTOP");
+
+        assertEquals(1, assertedList.size());
+        assertEquals("Laptop", assertedList.get(0).getCategory());
     }
 }

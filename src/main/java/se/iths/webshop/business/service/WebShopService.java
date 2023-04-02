@@ -85,7 +85,7 @@ public class WebShopService {
     }
 
     public List<Product> findByCategory(String category) {
-        return productRepository.findAll().stream().filter(product -> product.getCategory().contains(category)).toList();
+        return productRepository.findAll().stream().filter(product -> product.getCategory().toLowerCase().contains(category.toLowerCase())).toList();
     }
 
     public Person getUser() {
