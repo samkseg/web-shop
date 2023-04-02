@@ -37,6 +37,13 @@ public class WebShopService {
         cart = new Cart();
     }
 
+    public WebShopService(PersonRepository personRepository, ProductRepository productRepository, OrderRepository orderRepository, OrderedProductRepository orderedProductRepository) {
+        this.personRepository = personRepository;
+        this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
+        this.orderedProductRepository = orderedProductRepository;
+    }
+
     public List<Person> getUsers() {
         return personRepository.findAll();
     }

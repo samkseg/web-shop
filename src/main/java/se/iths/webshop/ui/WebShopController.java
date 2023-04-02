@@ -14,7 +14,9 @@ public class WebShopController {
 
     @Autowired
     WebShopService webShopService;
-
+    public WebShopController(WebShopService webShopService) {
+        this.webShopService = webShopService;
+    }
     @GetMapping("/register-user")
     public String register(Model model) {
         return "reg";
