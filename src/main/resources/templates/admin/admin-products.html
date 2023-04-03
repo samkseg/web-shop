@@ -17,14 +17,25 @@
 <b>Remove Product</b></br>
 <form action="/remove" method="post">
     Product ID: <input type="text" name="id"></br>
-    <input type="submit" value="Remove"></form>
+    <input type="hidden" name="text" th:value="${text}">
+    <input type="submit" value="Remove"></form></br>
+<b>Search products:</b></br>
+<form action="/admin-search" method="post">
+    <input type="text" name="text" th:value="${text}">
+    <input type="submit" value="Search">
+</form>
 <p th:text="${remove}"></p></br>
-<b>List of Products:</b></br>
+<b>Products:</b></br>
 <div th:each="item : ${products}">
     <span th:text="${item.getName()}"></span>
     <span th:text="${item.getCategory()}"></span>
     <span th:text="${item.getPrice()}"></span>
     ID: <span th:text="${item.getId()}"></span>
+    <form action="/remove" method="post">
+        <input type="hidden" name="id" th:value="${item.getId()}">
+        <input type="hidden" name="text" th:value="${text}">
+        <input type="submit" value="Remove">
+    </form>
 </div>
 </body>
 </html>

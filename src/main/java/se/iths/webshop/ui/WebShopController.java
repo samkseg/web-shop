@@ -316,11 +316,11 @@ public class WebShopController {
     }
 
     @PostMapping("/remove")
-    public String removeProduct(Model model, @RequestParam long id) {
+    public String removeProduct(Model model, @RequestParam long id, @RequestParam String text) {
         if (webShopService.getUser() instanceof Employee) {
             String remove = webShopService.removeProduct(id);
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("products", webShopService.getProducts());
+            model.addAttribute("products", webShopService.searchProduct(text));
             model.addAttribute("remove", remove);
             return "admin/admin-products";
         }
@@ -333,6 +333,17 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Employee) {
             model.addAttribute("products", webShopService.getProducts());
             model.addAttribute("login", webShopService.getUser().getName());
+            return "admin/admin-products";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
+    @PostMapping("/admin-search")
+    public String adminViewSearch(Model model, @RequestParam String text) {
+        if (webShopService.getUser() instanceof Employee) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("products", webShopService.searchProduct(text));
             return "admin/admin-products";
         }
         model.addAttribute("login", "Please log in first");
