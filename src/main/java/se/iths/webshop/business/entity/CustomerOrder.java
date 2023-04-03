@@ -22,6 +22,14 @@ public class CustomerOrder {
         confirmed = false;
         processed = false;
     }
+
+    public String getOrderItemsAsString() {
+        StringBuilder sb = new StringBuilder("");
+        for (OrderItem orderItem : items) {
+            sb.append(orderItem.getName()).append(System.getProperty("line.separator"));
+        }
+        return sb.toString();
+    }
     public String getName() {
         return "Order no. " + getId();
     }

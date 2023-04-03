@@ -1,19 +1,27 @@
 package se.iths.webshop.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import se.iths.webshop.business.entity.Customer;
 import se.iths.webshop.business.entity.CustomerOrder;
 import se.iths.webshop.business.entity.Employee;
+import se.iths.webshop.business.service.MailService;
 import se.iths.webshop.business.service.WebShopService;
 
 @Controller
 public class WebShopController {
 
     @Autowired
+    JavaMailSender javaMailSender;
+
+    @Autowired
     WebShopService webShopService;
+
+    @Autowired
+    MailService mailService;
 
     public void setWebShopService(WebShopService webShopService) {
         this.webShopService = webShopService;
@@ -197,7 +205,12 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             CustomerOrder order = webShopService.checkout();
             ((Customer) webShopService.getUser()).addOrder(order);
+            String text = System.getProperty("line.separator") + "Your order has been placed!" + System.getProperty("line.separator") + System.getProperty("line.separator")
+                    + "Order number: " + order.getId() + System.getProperty("line.separator")
+                    + order.getOrderItemsAsString() + System.getProperty("line.separator")
+                    + System.getProperty("line.separator") + order.getTotalPrice();
             webShopService.clearCart();
+            mailService.sendEmail("Order no: " + order.getId(), text, webShopService.getUser().getEmail());
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", order.getItems());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
