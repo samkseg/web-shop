@@ -48,6 +48,16 @@ public class WebShopController {
         return "login";
     }
 
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        return "admin/admin";
+    }
+
+    @GetMapping("/login-admin")
+    public String loginAdmin(Model model) {
+        return "admin/admin-login";
+    }
+
     @PostMapping("/login")
     public String loginUser(Model model, @RequestParam String email, @RequestParam String password) {
         String login = webShopService.loginUser(email, password);
@@ -55,13 +65,21 @@ public class WebShopController {
         model.addAttribute("products", webShopService.getProducts());
         if (login == "Wrong password or email!") {
             return "login";
-        } else if (login == "Admin") {
+        }
+        model.addAttribute("categories", webShopService.getCategories());
+        return "shop/category";
+    }
+
+    @PostMapping("/login-admin")
+    public String loginAdmin(Model model, @RequestParam String email, @RequestParam String password) {
+        String login = webShopService.loginAdmin(email, password);
+        model.addAttribute("login", login);
+        model.addAttribute("products", webShopService.getProducts());
+        if (login == "Admin") {
             model.addAttribute("login", webShopService.getUser().getName());
             return "admin/admin-add";
-        } else {
-            model.addAttribute("categories", webShopService.getCategories());
-            return "shop/category";
         }
+        return "login";
     }
 
     @GetMapping("/search")
@@ -266,6 +284,13 @@ public class WebShopController {
         String logout = webShopService.logoutUser();
         model.addAttribute("login", logout);
         return "login";
+    }
+
+    @GetMapping("/logout-admin")
+    public String logoutAdmin(Model model) {
+        String logout = webShopService.logoutUser();
+        model.addAttribute("login", logout);
+        return "admin/admin";
     }
 
     @GetMapping("admin-add")

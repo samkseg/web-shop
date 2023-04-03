@@ -116,17 +116,24 @@ public class WebShopService {
 
     public String loginUser(String email, String password) {
         Optional<Person> optionalPerson = personRepository.findByEmailAndPassword(email, password);
-        if (optionalPerson.isEmpty()) {
-            return "Wrong password or email!";
-        } else {
+        if (optionalPerson.isPresent()  && optionalPerson.get() instanceof Customer) {
             if (optionalPerson.get().getPassword().equals(password)) {
                 user = optionalPerson.get();
+                return optionalPerson.get().getName();
             }
         }
-        if (optionalPerson.get() instanceof Employee) {
-            return "Admin";
+        return "Wrong password or email!";
+    }
+
+    public String loginAdmin(String email, String password) {
+        Optional<Person> optionalPerson = personRepository.findByEmailAndPassword(email, password);
+        if (optionalPerson.isPresent() && optionalPerson.get() instanceof Employee) {
+            if (optionalPerson.get().getPassword().equals(password)) {
+                user = optionalPerson.get();
+                return "Admin";
+            }
         }
-        return optionalPerson.get().getName();
+        return "Wrong password or email!";
     }
 
     public String addProductToCart(long id, int count) {

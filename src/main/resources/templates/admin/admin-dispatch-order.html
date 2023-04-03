@@ -8,7 +8,7 @@
 <b>Logged in as Admin</b></br>
 <p th:text="${login}"></p>
 <a href="/admin-dispatch">Back</a></br>
-<a href="/logout">Logout</a></br></br>
+<a href="/logout-admin">Logout</a></br></br>
 <b>Expedited order:</b>
 <div th:each="item : ${items}">
     <span th:text="${item.getCount()}"></span>

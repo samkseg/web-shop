@@ -13,7 +13,7 @@
 <a href="/admin-process">Process Orders</a></br>
 <a href="/admin-dispatch">View Completed Orders</a></br>
 <a href="/admin-cancel">View Canceled Orders</a></br>
-<a href="/logout">Logout</a></br></br>
+<a href="/logout-admin">Logout</a></br></br>
 <b>Canceled orders:</b>
 <div th:each="order : ${orders}">
   <span th:text="${order.getName()}"></span>
