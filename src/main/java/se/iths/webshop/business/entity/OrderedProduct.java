@@ -3,10 +3,11 @@ package se.iths.webshop.business.entity;
 import jakarta.persistence.*;
 
 @Entity
-public class OrderedProduct {@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-@Column(name = "id", nullable = false)
-private Long id;
+public class OrderedProduct {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
     private String name;
     private String category;
     private Double price;
