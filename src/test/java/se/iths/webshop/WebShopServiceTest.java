@@ -68,7 +68,7 @@ public class WebShopServiceTest {
         Employee employee = new Employee("Admin", "admin@admin.com", "admin");
 
         when(personRepository.findByEmailAndPassword("admin@admin.com", "admin")).thenReturn(Optional.of(employee));
-        webShopService.loginUser("admin@admin.com", "admin");
+        webShopService.loginAdmin("admin@admin.com", "admin");
 
         assertEquals(employee, webShopService.getUser());
     }
