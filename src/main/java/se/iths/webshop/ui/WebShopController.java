@@ -260,14 +260,15 @@ public class WebShopController {
     @PostMapping("/order")
     public String orderView(Model model, @RequestParam long id) {
         if (webShopService.getUser() instanceof Customer) {
+            CustomerOrder order = webShopService.getOrder(id);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("id", id);
-            model.addAttribute("name", webShopService.getOrder(id).getName());
-            model.addAttribute("items", webShopService.getOrder(id).getItems());
-            model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
-            model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
-            model.addAttribute("process", webShopService.getOrder(id).isProcessed());
-            model.addAttribute("cancel", webShopService.getOrder(id).isCanceled());
+            model.addAttribute("name", order.getName());
+            model.addAttribute("items", order.getItems());
+            model.addAttribute("total", order.getTotalPrice());
+            model.addAttribute("confirm", order.isConfirmed());
+            model.addAttribute("process", order.isProcessed());
+            model.addAttribute("cancel", order.isCanceled());
             return "shop/order-view";
         }
         model.addAttribute("login", "Please log in first");
@@ -277,15 +278,16 @@ public class WebShopController {
     @PostMapping("/order-cancel")
     public String orderCancel(Model model, @RequestParam long id) {
         if (webShopService.getUser() instanceof Customer) {
+            CustomerOrder order = webShopService.getOrder(id);
             webShopService.cancelOrder(id);
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("id", id);
-            model.addAttribute("name", webShopService.getOrder(id).getName());
-            model.addAttribute("items", webShopService.getOrder(id).getItems());
-            model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
-            model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
-            model.addAttribute("process", webShopService.getOrder(id).isProcessed());
-            model.addAttribute("cancel", webShopService.getOrder(id).isCanceled());
+            model.addAttribute("name", order.getName());
+            model.addAttribute("items", order.getItems());
+            model.addAttribute("total", order.getTotalPrice());
+            model.addAttribute("confirm", order.isConfirmed());
+            model.addAttribute("process", order.isProcessed());
+            model.addAttribute("cancel", order.isCanceled());
             return "shop/order-view";
         }
         model.addAttribute("login", "Please log in first");
@@ -389,12 +391,13 @@ public class WebShopController {
     @PostMapping("/admin-pending-order")
     public String adminViewPendingOrder(Model model, @RequestParam long id) {
         if (webShopService.getUser() instanceof Employee) {
+            CustomerOrder order = webShopService.getOrder(id);
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("order", webShopService.getOrder(id).getName());
-            model.addAttribute("items", webShopService.getOrder(id).getItems());
-            model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
-            model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
-            model.addAttribute("process", webShopService.getOrder(id).isProcessed());
+            model.addAttribute("order", order.getName());
+            model.addAttribute("items", order.getItems());
+            model.addAttribute("total", order.getTotalPrice());
+            model.addAttribute("confirm", order.isConfirmed());
+            model.addAttribute("process", order.isProcessed());
             model.addAttribute("id", id);
             return "admin/admin-pending-order";
         }
@@ -442,12 +445,13 @@ public class WebShopController {
     @PostMapping("/admin-process-order")
     public String adminViewConfirmedOrder(Model model, @RequestParam long id) {
         if (webShopService.getUser() instanceof Employee) {
+            CustomerOrder order = webShopService.getOrder(id);
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("order", webShopService.getOrder(id).getName());
-            model.addAttribute("items", webShopService.getOrder(id).getItems());
-            model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
-            model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
-            model.addAttribute("process", webShopService.getOrder(id).isProcessed());
+            model.addAttribute("order", order.getName());
+            model.addAttribute("items", order.getItems());
+            model.addAttribute("total", order.getTotalPrice());
+            model.addAttribute("confirm", order.isConfirmed());
+            model.addAttribute("process", order.isProcessed());
             model.addAttribute("id", id);
             return "admin/admin-process-order";
         }
@@ -482,12 +486,13 @@ public class WebShopController {
     @PostMapping("/admin-dispatch-order")
     public String adminViewDispatchedOrder(Model model, @RequestParam long id) {
         if (webShopService.getUser() instanceof Employee) {
+            CustomerOrder order = webShopService.getOrder(id);
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("order", webShopService.getOrder(id).getName());
-            model.addAttribute("items", webShopService.getOrder(id).getItems());
-            model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
-            model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
-            model.addAttribute("process", webShopService.getOrder(id).isProcessed());
+            model.addAttribute("order", order.getName());
+            model.addAttribute("items", order.getItems());
+            model.addAttribute("total", order.getTotalPrice());
+            model.addAttribute("confirm", order.isConfirmed());
+            model.addAttribute("process", order.isProcessed());
             return "admin/admin-dispatch-order";
         }
         model.addAttribute("login", "Please log in first");
@@ -508,12 +513,13 @@ public class WebShopController {
     @PostMapping("/admin-cancel-order")
     public String adminViewCanceledOrder(Model model, @RequestParam long id) {
         if (webShopService.getUser() instanceof Employee) {
+            CustomerOrder order = webShopService.getOrder(id);
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("order", webShopService.getOrder(id).getName());
-            model.addAttribute("items", webShopService.getOrder(id).getItems());
-            model.addAttribute("total", webShopService.getOrder(id).getTotalPrice());
-            model.addAttribute("confirm", webShopService.getOrder(id).isConfirmed());
-            model.addAttribute("process", webShopService.getOrder(id).isProcessed());
+            model.addAttribute("order", order.getName());
+            model.addAttribute("items", order.getItems());
+            model.addAttribute("total", order.getTotalPrice());
+            model.addAttribute("confirm", order.isConfirmed());
+            model.addAttribute("process", order.isProcessed());
             return "admin/admin-cancel-order";
         }
         model.addAttribute("login", "Please log in first");
