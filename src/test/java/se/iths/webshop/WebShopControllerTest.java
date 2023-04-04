@@ -47,13 +47,20 @@ public class WebShopControllerTest {
     }
 
     @Test
-    public void shouldCallServiceToLogin() {
-        when(webShopService.registerAdmin(anyString(),anyString(),anyString())).thenReturn("");
+    public void shouldCallServiceToLoginUser() {
+        when(webShopService.registerUser(anyString(),anyString(),anyString())).thenReturn("");
 
         webShopController.loginUser(model,"test@test.com", "test1");
 
         verify(webShopService, times(1)).loginUser(anyString(),anyString());
     }
 
+    @Test
+    public void shouldCallServiceToLoginAdmin() {
+        when(webShopService.registerAdmin(anyString(),anyString(),anyString())).thenReturn("");
 
+        webShopController.loginAdmin(model,"test@test.com", "test1");
+
+        verify(webShopService, times(1)).loginAdmin(anyString(),anyString());
+    }
 }

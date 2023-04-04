@@ -32,7 +32,7 @@ public class WebShopController {
         return "reg";
     }
 
-    @PostMapping("/register-user-submit")
+    @PostMapping("/register-user")
     public String registerUser(Model model, @RequestParam String name, @RequestParam String email, @RequestParam String password) {
         String check =  webShopService.registerUser(name, email, password);
         model.addAttribute("regcheck", check);
@@ -44,7 +44,7 @@ public class WebShopController {
         return "admin/admin-reg";
     }
 
-    @PostMapping("/register-admin-submit")
+    @PostMapping("/register-admin")
     public String registerAdmin(Model model, @RequestParam String name, @RequestParam String email, @RequestParam String password) {
         String check =  webShopService.registerAdmin(name, email, password);
         model.addAttribute("regcheck", check);
