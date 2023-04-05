@@ -7,6 +7,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import se.iths.webshop.business.entity.Customer;
+import se.iths.webshop.business.entity.Employee;
+import se.iths.webshop.business.entity.Person;
 import se.iths.webshop.business.service.WebShopService;
 import se.iths.webshop.ui.WebShopController;
 
@@ -22,6 +26,9 @@ public class WebShopControllerTest {
     @Mock
     Model model;
 
+    @Mock
+    BindingResult br = mock(BindingResult.class);
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -30,25 +37,25 @@ public class WebShopControllerTest {
 
     @Test
     public void shouldCallServiceToRegisterNewUser() {
-        when(webShopService.registerUser(anyString(),anyString(),anyString())).thenReturn("");
+        when(webShopService.registerUser(any(Customer.class))).thenReturn("");
 
-        webShopController.registerUser(model,"Customer", "test@test.com", "test1");
+        webShopController.registerUser(model,new Customer("Customer", "test@test.com", "test1"), br);
 
-        verify(webShopService, times(1)).registerUser(anyString(),anyString(),anyString());
+        verify(webShopService, times(1)).registerUser(any(Customer.class));
     }
 
     @Test
     public void shouldCallServiceToRegisterNewAdmin() {
-        when(webShopService.registerAdmin(anyString(),anyString(),anyString())).thenReturn("");
+        when(webShopService.registerAdmin(any(Employee.class))).thenReturn("");
 
-        webShopController.registerAdmin(model,"Admin", "admin@admin.com", "admin");
+        webShopController.registerAdmin(model,new Employee("Admin", "admin@admin.com", "admin"), br);
 
-        verify(webShopService, times(1)).registerAdmin(anyString(),anyString(),anyString());
+        verify(webShopService, times(1)).registerAdmin(any(Employee.class));
     }
 
     @Test
     public void shouldCallServiceToLoginUser() {
-        when(webShopService.registerUser(anyString(),anyString(),anyString())).thenReturn("");
+        when(webShopService.registerUser(any(Customer.class))).thenReturn("");
 
         webShopController.loginUser(model,"test@test.com", "test1");
 
@@ -57,7 +64,7 @@ public class WebShopControllerTest {
 
     @Test
     public void shouldCallServiceToLoginAdmin() {
-        when(webShopService.registerAdmin(anyString(),anyString(),anyString())).thenReturn("");
+        when(webShopService.registerAdmin(any(Employee.class))).thenReturn("");
 
         webShopController.loginAdmin(model,"test@test.com", "test1");
 

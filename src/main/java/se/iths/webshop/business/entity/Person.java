@@ -15,7 +15,7 @@ public abstract class Person {
     @Column(name = "id", nullable = false)
     private Long id;
     @NotBlank
-    @Size(min = 2, max = 20)
+    @Size(min = 2, max = 30)
     @Column(name = "name")
     private String name;
     @Email
@@ -23,7 +23,7 @@ public abstract class Person {
     @Column(name = "email")
     private String email;
     @NotBlank
-    @Size(min = 5, max = 15)
+    @Size(min = 5, max = 20)
     @Column(name = "password")
     private String password;
 
@@ -41,6 +41,14 @@ public abstract class Person {
 
     public Long getId() {
         return id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {

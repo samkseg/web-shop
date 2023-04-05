@@ -1,9 +1,11 @@
 package se.iths.webshop.ui;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import se.iths.webshop.business.entity.Customer;
 import se.iths.webshop.business.entity.CustomerOrder;
@@ -29,25 +31,35 @@ public class WebShopController {
 
     @GetMapping("/register-user")
     public String register(Model model) {
+        model.addAttribute("customer", new Customer());
         return "reg";
     }
 
     @PostMapping("/register-user")
-    public String registerUser(Model model, @RequestParam String name, @RequestParam String email, @RequestParam String password) {
-        String check =  webShopService.registerUser(name, email, password);
-        model.addAttribute("regcheck", check);
+    public String registerUser(Model model, @Valid @ModelAttribute("customer") Customer customer, BindingResult br) {
+        if (br.hasErrors()) {
+            model.addAttribute("regcheck", "Name must be between 2 and 30 characters, password must be between 5 and 20 characters");
+        } else {
+            String check =  webShopService.registerUser(customer);
+            model.addAttribute("regcheck", check);
+        }
         return "reg";
     }
 
     @GetMapping("/register-admin")
     public String registerAdmin(Model model) {
+        model.addAttribute("employee", new Employee());
         return "admin/admin-reg";
     }
 
     @PostMapping("/register-admin")
-    public String registerAdmin(Model model, @RequestParam String name, @RequestParam String email, @RequestParam String password) {
-        String check =  webShopService.registerAdmin(name, email, password);
-        model.addAttribute("regcheck", check);
+    public String registerAdmin(Model model, @Valid @ModelAttribute("employee") Employee employee, BindingResult br) {
+        if (br.hasErrors()) {
+            model.addAttribute("regcheck", "Name must be between 2 and 30 characters, password must be between 5 and 20 characters");
+        } else {
+            String check =  webShopService.registerAdmin(employee);
+            model.addAttribute("regcheck", check);
+        }
         return "admin/admin-reg";
     }
 

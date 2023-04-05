@@ -96,19 +96,19 @@ public class WebShopService {
         return cart;
     }
 
-    public String registerAdmin(String name, String email, String password) {
-        Optional<Person> optionalPerson = personRepository.findByEmail(email);
+    public String registerAdmin(Employee employee) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(employee.getEmail());
         if (optionalPerson.isEmpty()) {
-            user = personRepository.save(new Employee(name, email, password));
+            user = personRepository.save(employee);
             return "Account created!";
 
         } else return "Account already exists!";
     }
 
-    public String registerUser(String name, String email, String password) {
-        Optional<Person> optionalPerson = personRepository.findByEmail(email);
+    public String registerUser(Customer customer) {
+        Optional<Person> optionalPerson = personRepository.findByEmail(customer.getEmail());
         if (optionalPerson.isEmpty()) {
-                user = personRepository.save(new Customer(name, email, password));
+                user = personRepository.save(customer);
                 return "Account created!";
 
         } else return "Account already exists!";

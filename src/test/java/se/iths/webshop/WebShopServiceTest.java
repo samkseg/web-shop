@@ -39,7 +39,7 @@ public class WebShopServiceTest {
 
     @Test
     public void shouldRegisterCustomer() {
-        String registration = webShopService.registerUser("Customer", "test@test.com", "test1");
+        String registration = webShopService.registerUser(new Customer("Customer", "test@test.com", "test1"));
 
         assertEquals("Account created!", registration);
         verify(personRepository, times(1)).save(any(Person.class));
@@ -47,7 +47,7 @@ public class WebShopServiceTest {
 
     @Test
     public void shouldRegisterEmployee() {
-        String registration = webShopService.registerUser("Admin", "admin@admin.com", "admin");
+        String registration = webShopService.registerAdmin(new Employee("Admin", "admin@admin.com", "admin"));
 
         assertEquals("Account created!", registration);
         verify(personRepository, times(1)).save(any(Person.class));

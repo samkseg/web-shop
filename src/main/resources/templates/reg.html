@@ -6,10 +6,10 @@
 </head>
 <body>
 <b>Register new account</b>
-<form action="/register-user" method="post">
-    Name: <input type="text" name="name"></br>
-    Email: <input type="text" name="email"></br>
-    Password: <input type="text" name="password"></br>
+<form th:action="@{/register-user}" method="post" th:object="${customer}">
+    Name: <input type="text" th:field="*{name}"></br>
+    Email: <input type="email" th:field="*{email}"></br>
+    Password: <input type="password" th:field="*{password}"></br>
     <input type="submit" value="Register">
 </form>
 <p th:text="${regcheck}"></p>
