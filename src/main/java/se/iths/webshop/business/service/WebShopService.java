@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 import se.iths.webshop.business.entity.*;
-import se.iths.webshop.data.*;
 import se.iths.webshop.data.repository.OrderRepository;
 import se.iths.webshop.data.repository.OrderedProductRepository;
 import se.iths.webshop.data.repository.PersonRepository;
@@ -56,7 +55,7 @@ public class WebShopService {
         return orderRepository.findByUserId(user.getId());
     }
 
-    public List<OrderLine> getOrderLines() {
+    public List<CartItem> getOrderLines() {
         return cart.getItems();
     }
 
@@ -173,10 +172,10 @@ public class WebShopService {
 
     public CustomerOrder checkout() {;
         ArrayList list = new ArrayList<>();
-        for (OrderLine orderLine : cart.getItems()) {
-            Product product = orderLine.getProduct();
+        for (CartItem cartItem : cart.getItems()) {
+            Product product = cartItem.getProduct();
             OrderedProduct orderedProduct = new OrderedProduct(product.getName(), product.getCategory(), product.getPrice());
-            OrderItem orderItem = new OrderItem(orderedProduct, orderLine.getCount());
+            OrderLine orderItem = new OrderLine(orderedProduct, cartItem.getCount());
             list.add(orderItem);
             orderedProductRepository.save(orderedProduct);
         }

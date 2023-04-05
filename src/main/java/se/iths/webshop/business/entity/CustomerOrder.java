@@ -13,7 +13,7 @@ public class CustomerOrder {
     @Column(name = "userId", nullable = false)
     private Long userId;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<OrderItem> items;
+    private List<OrderLine> items;
     private boolean confirmed;
     private boolean processed;
     private boolean canceled;
@@ -25,7 +25,7 @@ public class CustomerOrder {
 
     public String getOrderItemsAsString() {
         StringBuilder sb = new StringBuilder("");
-        for (OrderItem orderItem : items) {
+        for (OrderLine orderItem : items) {
             sb.append(orderItem.getName()).append(System.getProperty("line.separator"));
         }
         return sb.toString();
@@ -35,7 +35,7 @@ public class CustomerOrder {
     }
     public String getTotalPrice() {
         double sum = 0;
-        for (OrderItem orderItem : items) {
+        for (OrderLine orderItem : items) {
             sum = sum + orderItem.getPrice();
         }
         return "Total price: " + sum + " SEK";
@@ -65,15 +65,15 @@ public class CustomerOrder {
         this.processed = processed;
     }
 
-    public List<OrderItem> getItems() {
+    public List<OrderLine> getItems() {
         return items;
     }
 
-    public void setItems(List<OrderItem> items) {
+    public void setItems(List<OrderLine> items) {
         this.items = items;
     }
 
-    public void addItem(OrderItem orderItem) {
+    public void addItem(OrderLine orderItem) {
         items.add(orderItem);
     }
 

@@ -1,6 +1,6 @@
-package se.iths.webshop.data;
+package se.iths.webshop.business.entity;
 
-import se.iths.webshop.business.entity.OrderLine;
+import se.iths.webshop.business.entity.CartItem;
 import se.iths.webshop.business.entity.Product;
 
 import java.util.ArrayList;
@@ -9,47 +9,47 @@ import java.util.Optional;
 
 public class Cart {
 
-    List<OrderLine> items;
+    List<CartItem> items;
 
     public Cart () {
         this.items = new ArrayList<>();
     }
 
-    public Cart (List<OrderLine> list) {
+    public Cart (List<CartItem> list) {
         this.items = new ArrayList<>();
         items.addAll(list);
     }
-    public Optional<OrderLine> findByName(String name) {
-        for (OrderLine orderLine : items) {
-            Product product = orderLine.getProduct();
+    public Optional<CartItem> findByName(String name) {
+        for (CartItem cartItem : items) {
+            Product product = cartItem.getProduct();
             if (product.getName().toLowerCase().equals(name.toLowerCase())) {
-                return Optional.of(orderLine);
+                return Optional.of(cartItem);
             }
         }
         return Optional.empty();
     }
 
-    public Optional<OrderLine> findByProduct(Product product) {
-        for (OrderLine orderLine : items) {
-            Product foundProduct = orderLine.getProduct();
+    public Optional<CartItem> findByProduct(Product product) {
+        for (CartItem cartItem : items) {
+            Product foundProduct = cartItem.getProduct();
             if (product.equals(foundProduct)) {
-                return Optional.of(orderLine);
+                return Optional.of(cartItem);
             }
         }
         return Optional.empty();
     }
 
     public Optional<Product> addProduct(Product product, int count) {
-        Optional<OrderLine> orderLine = findByProduct(product);
+        Optional<CartItem> orderLine = findByProduct(product);
         if (orderLine.isEmpty()) {
-            getItems().add(new OrderLine(product, count));
+            getItems().add(new CartItem(product, count));
             return Optional.of(product);
         }
         return Optional.empty();
     }
 
     public void updateCartItem(String name, int count) {
-        Optional<OrderLine> orderLine = findByName(name);
+        Optional<CartItem> orderLine = findByName(name);
         if (orderLine.isPresent()) {
             if (count == 0) {
                 getItems().remove(orderLine.get());
@@ -61,13 +61,13 @@ public class Cart {
 
     public double getTotal() {
         double sum = 0;
-        for (OrderLine orderLine : getItems()) {
-            sum = sum + orderLine.getPrice();
+        for (CartItem cartItem : getItems()) {
+            sum = sum + cartItem.getPrice();
         }
         return sum;
     }
 
-    public List<OrderLine> getItems () {
+    public List<CartItem> getItems () {
         return items;
     }
 }

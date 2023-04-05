@@ -212,8 +212,8 @@ public class WebShopController {
         return "login";
     }
 
-    @PostMapping("/confirmed")
-    public String confirmed(Model model) {
+    @PostMapping("/place-order")
+    public String placeOrder(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             CustomerOrder order = webShopService.checkout();
             ((Customer) webShopService.getUser()).addOrder(order);
@@ -234,7 +234,7 @@ public class WebShopController {
     }
 
     @PostMapping("/checkout")
-    public String confirm(Model model) {
+    public String checkout(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", webShopService.getOrderLines());

@@ -9,17 +9,17 @@ public class OrderLine {
     @Column(name = "id", nullable = false)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    Product product;
+    OrderedProduct product;
     int count;
 
     public OrderLine() {}
 
-    public OrderLine(Product product, int count) {
+    public OrderLine(OrderedProduct product, int count) {
         this.product = product;
         this.count = count;
     }
 
-    public Product getProduct() {
+    public OrderedProduct getProduct() {
         return product;
     }
 

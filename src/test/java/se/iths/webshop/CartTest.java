@@ -2,9 +2,9 @@ package se.iths.webshop;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import se.iths.webshop.business.entity.OrderLine;
+import se.iths.webshop.business.entity.CartItem;
 import se.iths.webshop.business.entity.Product;
-import se.iths.webshop.data.Cart;
+import se.iths.webshop.business.entity.Cart;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ public class CartTest {
             new Product("MacBook", "Laptop", 24000.0, "The latest MacBook")
     );
 
-    private List<OrderLine> mockingRepository = List.of(
-            new OrderLine(products.get(0), 1),
-            new OrderLine(products.get(1), 2)
+    private List<CartItem> mockingRepository = List.of(
+            new CartItem(products.get(0), 1),
+            new CartItem(products.get(1), 2)
     );
     private Cart cart = new Cart(mockingRepository);
 
