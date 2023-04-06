@@ -160,9 +160,9 @@ public class WebShopService {
         return "Logged out!";
     }
 
-    public String addProduct(String name, String category, double price, String description) {
-        productRepository.save(new Product(name, category, price, description));
-        return name + " added!";
+    public String addProduct(Product product) {
+        productRepository.save(product);
+        return product.getName() + " added!";
     }
 
     public String removeProduct(long id) {

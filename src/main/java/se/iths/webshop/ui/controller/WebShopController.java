@@ -1,4 +1,4 @@
-package se.iths.webshop.ui;
+package se.iths.webshop.ui.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import se.iths.webshop.business.entity.Customer;
 import se.iths.webshop.business.entity.CustomerOrder;
 import se.iths.webshop.business.entity.Employee;
+import se.iths.webshop.business.entity.Product;
 import se.iths.webshop.business.service.MailService;
 import se.iths.webshop.business.service.WebShopService;
 
@@ -97,7 +98,7 @@ public class WebShopController {
         model.addAttribute("products", webShopService.getProducts());
         if (login == "Admin") {
             model.addAttribute("login", webShopService.getUser().getName());
-            return "admin/admin-add";
+            return "admin/admin-products";
         }
         return "login";
     }
@@ -324,18 +325,23 @@ public class WebShopController {
     public String adminViewAdd(Model model) {
         if (webShopService.getUser() instanceof Employee) {
             model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("product", new Product());
             return "admin/admin-add";
         }
         model.addAttribute("login", "Please log in first");
         return "login";
     }
 
-    @PostMapping("/add")
-    public String addProduct(Model model, @RequestParam String name, @RequestParam String category, @RequestParam double price, @RequestParam String description) {
+    @PostMapping("/admin-add")
+    public String addProduct(Model model, @Valid @ModelAttribute("product") Product product, BindingResult br) {
         if (webShopService.getUser() instanceof Employee) {
-            String add = webShopService.addProduct(name, category, price, description);
-            model.addAttribute("addResult", add);
-            model.addAttribute("login", webShopService.getUser().getName());
+            if (br.hasErrors()) {
+                model.addAttribute("addResult", "Invalid input");
+            } else {
+                String add = webShopService.addProduct(product);
+                model.addAttribute("addResult", add);
+                model.addAttribute("login", webShopService.getUser().getName());
+            }
             return "admin/admin-add";
         }
         model.addAttribute("login", "Please log in first");

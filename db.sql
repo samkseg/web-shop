@@ -9,7 +9,7 @@ CREATE TABLE product (
 	category VARCHAR(255),
 	description VARCHAR(255),
 	name VARCHAR(255),
-	price DOUBLE,
+	price DOUBLE NOT NULL,
 	PRIMARY KEY (id)
 );
 

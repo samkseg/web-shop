@@ -1,6 +1,5 @@
 package se.iths.webshop;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -10,9 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import se.iths.webshop.business.entity.Customer;
 import se.iths.webshop.business.entity.Employee;
-import se.iths.webshop.business.entity.Person;
 import se.iths.webshop.business.service.WebShopService;
-import se.iths.webshop.ui.WebShopController;
+import se.iths.webshop.ui.controller.WebShopController;
 
 import static org.mockito.Mockito.*;
 
