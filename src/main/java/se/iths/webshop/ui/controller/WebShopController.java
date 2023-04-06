@@ -118,7 +118,7 @@ public class WebShopController {
     public String search(Model model, @RequestParam String text) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("products", webShopService.searchProduct(text));
+            model.addAttribute("products", webShopService.searchProductsByName(text));
             model.addAttribute("text", text);
             return "shop/search";
         }
@@ -127,7 +127,7 @@ public class WebShopController {
     }
 
     @PostMapping("/product")
-    public String product(Model model, @RequestParam long id) {
+    public String productView(Model model, @RequestParam long id) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("product", webShopService.getProduct(id));
@@ -136,6 +136,18 @@ public class WebShopController {
         model.addAttribute("login", "Please log in first");
         return "login";
     }
+    @PostMapping("/product-add")
+    public String productAdd(Model model, @RequestParam long id, @RequestParam int count) {
+        if (webShopService.getUser() instanceof Customer) {
+            model.addAttribute("login", webShopService.getUser().getName());
+            model.addAttribute("product", webShopService.getProduct(id));
+            model.addAttribute("message", webShopService.addProductToCart(id ,count));
+            return "shop/product-view";
+        }
+        model.addAttribute("login", "Please log in first");
+        return "login";
+    }
+
 
     @GetMapping("/category")
     public String category(Model model) {
@@ -154,7 +166,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("categories", webShopService.getCategories());
-            model.addAttribute("products", webShopService.findByCategory(category));
+            model.addAttribute("products", webShopService.searchProductsByCategory(category));
             return "shop/category";
         }
         model.addAttribute("login", "Please log in first");
@@ -165,7 +177,7 @@ public class WebShopController {
     public String addToCart(Model model, @RequestParam long id, @RequestParam int count, @RequestParam String searched) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("products", webShopService.searchProduct(searched));
+            model.addAttribute("products", webShopService.searchProductsByName(searched));
             model.addAttribute("message", webShopService.addProductToCart(id ,count));
             return "shop/search";
         }
@@ -178,7 +190,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("categories", webShopService.getCategories());
-            model.addAttribute("products", webShopService.findByCategory(selected));
+            model.addAttribute("products", webShopService.searchProductsByCategory(selected));
             model.addAttribute("message", webShopService.addProductToCart(id ,count));
             return "shop/category";
         }
@@ -190,7 +202,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Customer) {
             webShopService.updateCartItem(name, count);
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("items", webShopService.getOrderLines());
+            model.addAttribute("items", webShopService.getCartItems());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             model.addAttribute("emptycart", webShopService.getCart().getItems().size() < 1);
             return "shop/cart-view";
@@ -203,7 +215,7 @@ public class WebShopController {
     public String deleteCart(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("items", webShopService.getOrderLines());
+            model.addAttribute("items", webShopService.getCartItems());
             model.addAttribute("changes", webShopService.clearCart());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             model.addAttribute("emptycart", webShopService.getCart().getItems().size() < 1);
@@ -238,7 +250,7 @@ public class WebShopController {
     public String checkout(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("items", webShopService.getOrderLines());
+            model.addAttribute("items", webShopService.getCartItems());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             return "shop/checkout";
         }
@@ -250,7 +262,7 @@ public class WebShopController {
     public String cartView(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("items", webShopService.getOrderLines());
+            model.addAttribute("items", webShopService.getCartItems());
             model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
             model.addAttribute("emptycart", webShopService.getCart().getItems().size() < 1);
             return "shop/cart-view";
@@ -263,7 +275,7 @@ public class WebShopController {
     public String orders(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("orders", webShopService.getOrders());
+            model.addAttribute("orders", webShopService.getOrdersByUserId());
             return "shop/orders-view";
         }
         model.addAttribute("login", "Please log in first");
@@ -353,7 +365,7 @@ public class WebShopController {
         if (webShopService.getUser() instanceof Employee) {
             String remove = webShopService.removeProduct(id);
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("products", webShopService.searchProduct(text));
+            model.addAttribute("products", webShopService.searchProductsByName(text));
             model.addAttribute("remove", remove);
             return "admin/admin-products";
         }
@@ -376,7 +388,7 @@ public class WebShopController {
     public String adminViewSearch(Model model, @RequestParam String text) {
         if (webShopService.getUser() instanceof Employee) {
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("products", webShopService.searchProduct(text));
+            model.addAttribute("products", webShopService.searchProductsByName(text));
             return "admin/admin-products";
         }
         model.addAttribute("login", "Please log in first");

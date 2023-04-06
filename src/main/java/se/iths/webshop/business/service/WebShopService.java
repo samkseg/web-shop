@@ -51,11 +51,7 @@ public class WebShopService {
         return productRepository.findAll();
     }
 
-    public List<CustomerOrder> getOrders() {
-        return orderRepository.findByUserId(user.getId());
-    }
-
-    public List<CartItem> getOrderLines() {
+    public List<CartItem> getCartItems() {
         return cart.getItems();
     }
 
@@ -69,6 +65,10 @@ public class WebShopService {
         return optionalOrder.orElse(null);
     }
 
+    public List<CustomerOrder> getOrdersByUserId() {
+        return orderRepository.findByUserId(user.getId());
+    }
+
     public List<String> getCategories() {
         List<String> categories = new ArrayList<>();
         for (Product product : productRepository.findAll()) {
@@ -79,11 +79,11 @@ public class WebShopService {
         return categories;
     }
 
-    public List<Product> searchProduct(String text) {
+    public List<Product> searchProductsByName(String text) {
         return productRepository.findAll().stream().filter(product -> product.getName().toLowerCase().contains(text.toLowerCase())).toList();
     }
 
-    public List<Product> findByCategory(String category) {
+    public List<Product> searchProductsByCategory(String category) {
         return productRepository.findAll().stream().filter(product -> product.getCategory().toLowerCase().contains(category.toLowerCase())).toList();
     }
 

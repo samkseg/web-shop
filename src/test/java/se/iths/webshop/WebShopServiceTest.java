@@ -111,7 +111,7 @@ public class WebShopServiceTest {
         list.add(new Product("Galaxy 22", "Phone", 9000.0, "The latest Samsung Galaxy"));
         when(productRepository.findAll()).thenReturn(list);
 
-        List<Product> assertedList = webShopService.searchProduct("IPHONE");
+        List<Product> assertedList = webShopService.searchProductsByName("IPHONE");
 
         assertEquals(1, assertedList.size());
         assertEquals("iPhone", assertedList.get(0).getName());
@@ -124,7 +124,7 @@ public class WebShopServiceTest {
         list.add(new Product("MacBook", "Laptop", 9000.0, "The latest MacBook"));
         when(productRepository.findAll()).thenReturn(list);
 
-        List<Product> assertedList = webShopService.findByCategory("LAPTOP");
+        List<Product> assertedList = webShopService.searchProductsByCategory("LAPTOP");
 
         assertEquals(1, assertedList.size());
         assertEquals("Laptop", assertedList.get(0).getCategory());
