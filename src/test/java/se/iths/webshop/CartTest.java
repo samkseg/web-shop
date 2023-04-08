@@ -2,9 +2,9 @@ package se.iths.webshop;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import se.iths.webshop.business.entity.CartItem;
+import se.iths.webshop.business.model.CartItem;
 import se.iths.webshop.business.entity.Product;
-import se.iths.webshop.business.entity.Cart;
+import se.iths.webshop.business.model.Cart;
 
 import java.util.List;
 

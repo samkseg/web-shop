@@ -1,6 +1,5 @@
-package se.iths.webshop.business.entity;
+package se.iths.webshop.business.model;
 
-import se.iths.webshop.business.entity.CartItem;
 import se.iths.webshop.business.entity.Product;
 
 import java.util.ArrayList;

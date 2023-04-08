@@ -1,14 +1,9 @@
-package se.iths.webshop.business.entity;
+package se.iths.webshop.business.model;
 
-import jakarta.persistence.*;
+import se.iths.webshop.business.entity.Product;
 
-@Entity
 public class CartItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
-    private Long id;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+
     Product product;
     int count;
 
@@ -25,14 +20,6 @@ public class CartItem {
 
     public int getCount() {
         return count;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
