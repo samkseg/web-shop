@@ -15,17 +15,22 @@ import java.util.function.Function;
 
 public class OrderedProductRepositoryImplementation implements OrderedProductRepository {
     @Override
-    public Optional<Product> findByName(String name) {
+    public Optional<OrderedProduct> findByName(String name) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<Product> findByCategory(String category) {
+    public Optional<OrderedProduct> findByCategory(String category) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<Product> findById(long id) {
+    public Optional<OrderedProduct> findById(long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<OrderedProduct> findByNameAndCategoryAndPrice(String name, String category, Double price) {
         return Optional.empty();
     }
 

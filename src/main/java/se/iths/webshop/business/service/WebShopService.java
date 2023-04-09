@@ -176,7 +176,14 @@ public class WebShopService {
         ArrayList list = new ArrayList<>();
         for (CartItem cartItem : cart.getItems()) {
             Product product = cartItem.getProduct();
-            OrderedProduct orderedProduct = new OrderedProduct(product.getName(), product.getCategory(), product.getPrice());
+            Optional<OrderedProduct> optionalOrderedProduct = orderedProductRepository.findByNameAndCategoryAndPrice(
+                    product.getName(),
+                    product.getCategory(),
+                    product.getPrice());
+            OrderedProduct orderedProduct  = optionalOrderedProduct.orElseGet(
+                    () -> new OrderedProduct(product.getName(),
+                            product.getCategory(),
+                            product.getPrice()));
             OrderLine orderItem = new OrderLine(orderedProduct, cartItem.getCount());
             list.add(orderItem);
             orderedProductRepository.save(orderedProduct);
