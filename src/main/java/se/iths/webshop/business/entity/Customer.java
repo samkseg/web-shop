@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @DiscriminatorValue(value = "CUSTOMER")
 public class Customer extends Person{
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<CustomerOrder> orders;
 
     public Customer (){}

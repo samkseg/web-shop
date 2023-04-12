@@ -229,7 +229,6 @@ public class WebShopController {
     public String placeOrder(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             CustomerOrder order = webShopService.checkout();
-            ((Customer) webShopService.getUser()).addOrder(order);
             String text = System.getProperty("line.separator") + "Your order has been placed!" + System.getProperty("line.separator") + System.getProperty("line.separator")
                     + "Order number: " + order.getId() + System.getProperty("line.separator")
                     + order.getOrderItemsAsString() + System.getProperty("line.separator")
@@ -238,7 +237,7 @@ public class WebShopController {
             mailService.sendEmail("Order no: " + order.getId(), text, webShopService.getUser().getEmail());
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", order.getItems());
-            model.addAttribute("total", "Total: " + webShopService.getCartTotal() + " SEK");
+            model.addAttribute("total", order.getTotalPrice());
             model.addAttribute("message", "Order has been placed!");
             return "shop/confirmed";
         }
@@ -275,7 +274,7 @@ public class WebShopController {
     public String orders(Model model) {
         if (webShopService.getUser() instanceof Customer) {
             model.addAttribute("login", webShopService.getUser().getName());
-            model.addAttribute("orders", webShopService.getOrdersByUserId());
+            model.addAttribute("orders", webShopService.getUserOrders());
             return "shop/orders-view";
         }
         model.addAttribute("login", "Please log in first");

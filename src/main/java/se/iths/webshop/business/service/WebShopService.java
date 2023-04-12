@@ -67,8 +67,8 @@ public class WebShopService {
         return optionalOrder.orElse(null);
     }
 
-    public List<CustomerOrder> getOrdersByUserId() {
-        return orderRepository.findByUserId(user.getId());
+    public List<CustomerOrder> getUserOrders() {
+        return ((Customer) user).getOrders();
     }
 
     public List<String> getCategories() {
@@ -190,8 +190,10 @@ public class WebShopService {
         }
         CustomerOrder order = new CustomerOrder();
         order.setItems(list);
-        order.setUserId(user.getId());
+        order.setCustomer((Customer) user);
+        ((Customer) user).addOrder(order);
         orderRepository.save(order);
+        user = personRepository.save(user);
         return order;
     }
 

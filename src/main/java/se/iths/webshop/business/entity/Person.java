@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Size;
 @DiscriminatorColumn(name = "person_type")
 public abstract class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     @NotBlank

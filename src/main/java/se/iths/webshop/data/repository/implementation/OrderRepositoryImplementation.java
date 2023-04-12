@@ -13,10 +13,6 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class OrderRepositoryImplementation implements OrderRepository {
-    @Override
-    public List<CustomerOrder> findByUserId(long userId) {
-        return null;
-    }
 
     @Override
     public Optional<CustomerOrder> findById(long Id) {

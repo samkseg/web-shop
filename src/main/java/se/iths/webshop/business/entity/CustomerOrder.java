@@ -10,10 +10,10 @@ public class CustomerOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(name = "userId", nullable = false)
-    private Long userId;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<OrderLine> items;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Customer customer;
     private boolean confirmed;
     private boolean processed;
     private boolean canceled;
@@ -77,12 +77,12 @@ public class CustomerOrder {
         items.add(orderItem);
     }
 
-    public Long getUserId() {
-        return userId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Long getId() {
