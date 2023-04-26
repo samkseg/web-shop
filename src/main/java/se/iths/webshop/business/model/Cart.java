@@ -69,4 +69,8 @@ public class Cart {
     public List<CartItem> getItems () {
         return items;
     }
+
+    public void empty() {
+        items.clear();
+    }
 }

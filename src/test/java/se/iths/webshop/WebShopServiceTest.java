@@ -32,9 +32,7 @@ public class WebShopServiceTest {
     private ProductRepository productRepository = mock(ProductRepositoryImplementation.class);
     @Mock
     private OrderRepository orderRepository = mock(OrderRepositoryImplementation.class);
-    @Mock
-    private OrderedProductRepository orderedProductRepository = mock(OrderedProductRepositoryImplementation.class);
-    private WebShopService webShopService = new WebShopService(personRepository, productRepository, orderRepository, orderedProductRepository);
+    private WebShopService webShopService = new WebShopService(personRepository, productRepository, orderRepository);
 
 
     @Test

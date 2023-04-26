@@ -12,9 +12,9 @@
 <b>Canceled order: </b>
 <div th:each="item : ${items}">
   <span th:text="${item.getCount()}"></span>
-  <span th:text="${item.getProduct().getName()}"></span>
-  <span th:text="${item.getProduct().getCategory()}"></span>
-  <span th:text="${item.getProduct().getPrice()}"></span>
+  <span th:text="${item.getProduct()}"></span>
+  <span th:text="${item.getCategory()}"></span>
+  <span th:text="${item.getPrice()}"></span>
   </form>
 </div>
 <p th:text="${total}"></p>

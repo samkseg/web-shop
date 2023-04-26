@@ -8,18 +8,21 @@ public class OrderLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    OrderedProduct product;
+    String product;
+    String category;
+    double price;
     int count;
 
     public OrderLine() {}
 
-    public OrderLine(OrderedProduct product, int count) {
+    public OrderLine(String product, String category, double price, int count) {
         this.product = product;
+        this.category = category;
+        this.price = price;
         this.count = count;
     }
 
-    public OrderedProduct getProduct() {
+    public String getProduct() {
         return product;
     }
 
@@ -36,7 +39,7 @@ public class OrderLine {
     }
 
     public String getName() {
-        return count + " " + product.getName() + " " + getPrice();
+        return count + " " + product + " " + getPrice();
     }
 
     public void setCount(int count) {
@@ -44,6 +47,10 @@ public class OrderLine {
     }
 
     public double getPrice() {
-        return product.getPrice() * count;
+        return price * count;
+    }
+
+    public String getCategory() {
+        return category;
     }
 }

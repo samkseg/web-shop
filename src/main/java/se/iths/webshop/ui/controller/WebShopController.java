@@ -234,7 +234,7 @@ public class WebShopController {
                     + order.getOrderItemsAsString() + System.getProperty("line.separator")
                     + System.getProperty("line.separator") + order.getTotalPrice();
             webShopService.clearCart();
-            mailService.sendEmail("Order no: " + order.getId(), text, webShopService.getUser().getEmail());
+            //mailService.sendEmail("Order no: " + order.getId(), text, webShopService.getUser().getEmail());
             model.addAttribute("login", webShopService.getUser().getName());
             model.addAttribute("items", order.getItems());
             model.addAttribute("total", order.getTotalPrice());

@@ -27,9 +27,6 @@ public class WebShopService {
     @Autowired
     OrderRepository orderRepository;
 
-    @Autowired
-    OrderedProductRepository orderedProductRepository;
-
     public Cart cart;
 
     Person user;
@@ -38,11 +35,10 @@ public class WebShopService {
         cart = new Cart();
     }
 
-    public WebShopService(PersonRepository personRepository, ProductRepository productRepository, OrderRepository orderRepository, OrderedProductRepository orderedProductRepository) {
+    public WebShopService(PersonRepository personRepository, ProductRepository productRepository, OrderRepository orderRepository) {
         this.personRepository = personRepository;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
-        this.orderedProductRepository = orderedProductRepository;
     }
 
     public List<Person> getUsers() {
@@ -153,7 +149,7 @@ public class WebShopService {
         return cart.getTotal();
     }
     public String clearCart(){
-        cart.getItems().clear();
+        cart.empty();
         return "Cart emptied";
     }
 
@@ -176,17 +172,8 @@ public class WebShopService {
         ArrayList list = new ArrayList<>();
         for (CartItem cartItem : cart.getItems()) {
             Product product = cartItem.getProduct();
-            Optional<OrderedProduct> optionalOrderedProduct = orderedProductRepository.findByNameAndCategoryAndPrice(
-                    product.getName(),
-                    product.getCategory(),
-                    product.getPrice());
-            OrderedProduct orderedProduct  = optionalOrderedProduct.orElseGet(
-                    () -> new OrderedProduct(product.getName(),
-                            product.getCategory(),
-                            product.getPrice()));
-            OrderLine orderItem = new OrderLine(orderedProduct, cartItem.getCount());
-            list.add(orderItem);
-            orderedProductRepository.save(orderedProduct);
+            OrderLine orderLine = new OrderLine(product.getName(), product.getCategory(), product.getPrice(), cartItem.getCount());
+            list.add(orderLine);
         }
         CustomerOrder order = new CustomerOrder();
         order.setItems(list);
