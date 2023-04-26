@@ -7,7 +7,6 @@ import se.iths.webshop.business.entity.*;
 import se.iths.webshop.business.model.Cart;
 import se.iths.webshop.business.model.CartItem;
 import se.iths.webshop.data.repository.OrderRepository;
-import se.iths.webshop.data.repository.OrderedProductRepository;
 import se.iths.webshop.data.repository.PersonRepository;
 import se.iths.webshop.data.repository.ProductRepository;
 

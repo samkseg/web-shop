@@ -8,11 +8,9 @@ import se.iths.webshop.business.entity.Person;
 import se.iths.webshop.business.entity.Product;
 import se.iths.webshop.business.service.WebShopService;
 import se.iths.webshop.data.repository.OrderRepository;
-import se.iths.webshop.data.repository.OrderedProductRepository;
 import se.iths.webshop.data.repository.PersonRepository;
 import se.iths.webshop.data.repository.ProductRepository;
 import se.iths.webshop.data.repository.implementation.OrderRepositoryImplementation;
-import se.iths.webshop.data.repository.implementation.OrderedProductRepositoryImplementation;
 import se.iths.webshop.data.repository.implementation.PersonRepositoryImplementation;
 import se.iths.webshop.data.repository.implementation.ProductRepositoryImplementation;
 
