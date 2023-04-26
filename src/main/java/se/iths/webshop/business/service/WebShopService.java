@@ -226,8 +226,8 @@ public class WebShopService {
 
     // REST CRUD Operations
 
-    public Product createProduct (String name, String category, Double price, String description) {
-        return productRepository.save(new Product(name, category, price, description));
+    public Product createProduct (Product product) {
+        return productRepository.save(product);
     }
 
     public List<Product> getAllProducts() {

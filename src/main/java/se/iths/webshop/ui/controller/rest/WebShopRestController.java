@@ -15,10 +15,15 @@ public class WebShopRestController {
     @Autowired
     WebShopService webShopService;
 
+    @PostMapping("/rs/product/create")
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
+        return ResponseEntity.accepted().body(webShopService.createProduct(product));
+    }
     @PostMapping("/rs/product/create/name/{name}/category/{category}/price/{price}/description/{description}")
     public ResponseEntity<Product> createProduct(@Valid @PathVariable String name, @PathVariable String category, @PathVariable double price, @PathVariable String description) {
-        return ResponseEntity.accepted().body(webShopService.createProduct(name, category, price, description));
+        return ResponseEntity.accepted().body(webShopService.createProduct(new Product(name, category, price, description)));
     }
+
 
     @GetMapping("/rs/product/all")
     public List<Product> getAllProducts() {
