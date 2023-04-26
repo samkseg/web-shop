@@ -42,9 +42,7 @@ public class Product {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+
 
     public void setId(Long id) {
         this.id = id;
@@ -78,6 +76,9 @@ public class Product {
         this.price = price;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -223,4 +223,54 @@ public class WebShopService {
         orderRepository.save(order);
 
     }
+
+    // REST CRUD Operations
+
+    public Product createProduct (String name, String category, Double price, String description) {
+        return productRepository.save(new Product(name, category, price, description));
+    }
+
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+    public Product getProductById(long id){
+        return productRepository.findById(id).get();
+    }
+
+    public List<Product> getProductsByName(String text) {
+        return productRepository.findAll().stream().filter(product -> product.getName().toLowerCase().contains(text.toLowerCase())).toList();
+    }
+
+    public List<Product> getProductsByCategory(String category) {
+        return productRepository.findAll().stream().filter(product -> product.getCategory().toLowerCase().contains(category.toLowerCase())).toList();
+    }
+
+    public Product updateProductName(long id, String name){
+        Product product = productRepository.findById(id).get();
+        product.setName(name);
+        return productRepository.save(product);
+    }
+
+    public Product updatedProductCategory(long id, String category) {
+        Product product = productRepository.findById(id).get();
+        product.setCategory(category);
+        return productRepository.save(product);
+    }
+
+    public Product updateProductPrice(long id, double price){
+        Product product = productRepository.findById(id).get();
+        product.setPrice(price);
+        return productRepository.save(product);
+    }
+
+    public Product updateProductDescription(long id, String description){
+        Product product = productRepository.findById(id).get();
+        product.setDescription(description);
+        return productRepository.save(product);
+    }
+    public List<Product> deleteProduct(long id) {
+        productRepository.deleteById(id);
+        return productRepository.findAll();
+    }
 }
