@@ -270,7 +270,7 @@ public class WebShopService {
         return productRepository.save(product);
     }
     public List<Product> deleteProduct(long id) {
-        productRepository.deleteById(id);
+        productRepository.delete(productRepository.findById(id).get());
         return productRepository.findAll();
     }
 }
