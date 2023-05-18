@@ -9,3 +9,6 @@ Assignment for course in Complex Java Programming
 2. run app
 3. go to localhost:8080
 4. create admin/user accounts 
+
+***
+![alt text](/web-shop.png)
