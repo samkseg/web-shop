@@ -3,6 +3,10 @@
 Assignment for course in Complex Java Programming
 
 ***  
+## Description
+Simple Spring Web Shop with MVC structure using a docker MySQL database, JPA and Thymeleaf.
+
+*** 
 ### Instructions
 
 1. run db.sql
